@@ -1,0 +1,126 @@
+<mat-accordion class="example-headers-align">
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          User's Details
+        </mat-panel-title>
+        <mat-panel-description>
+          Input username, first, middle and last names
+          <mat-icon>account_circle</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input #username id="username" matInput>
+        </mat-form-field>
+    
+        <mat-form-field appearance="fill">
+          <mat-label>First name</mat-label>
+          <input #firstname id="firstname" matInput id="firstname" required=true>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill">
+          <mat-label>Middle name</mat-label>
+          <input #middlename id="middlename" matInput id="middlename">
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill">
+          <mat-label>Last name</mat-label>
+          <input #lastname id="lastname" matInput id="lastname">
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input #address id="address" matInput id="address">
+      </mat-form-field>
+  
+      <!-- <mat-form-field appearance="fill">
+        <mat-label>Age</mat-label>
+        <input matInput type="number" min="1">
+      </mat-form-field> -->
+      <mat-action-row>
+        <button mat-button color="primary" 
+        (click)="nextStep(); addUserDetails(username.value, firstname.value, middlename.value, lastname.value); addAddress(address.value)">
+          Next
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              User Credentials
+            </mat-panel-title>
+            <mat-panel-description>
+              Input password
+              <mat-icon>password</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-form-field appearance="fill">
+            <mat-label>Input password</mat-label>
+            <input #password type="password" matInput id="password">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Confirm password</mat-label>
+            <input #confirmPassword type="password" matInput id="confirmPassword">
+          </mat-form-field>
+          <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep(); addUserPassword(password.value, confirmPassword.value)">Previous</button>
+            <button mat-button color="primary" (click)="nextStep(); addUserPassword(password.value, confirmPassword.value)">Next</button>
+          </mat-action-row>
+    </mat-expansion-panel>
+  
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              User Account Status
+            </mat-panel-title>
+            <mat-panel-description>
+              Choose user status
+              <mat-icon>status</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Select Account Status</mat-label>
+            <mat-select [(ngModel)]="selectedStatus">
+              <mat-option *ngFor="let status of statuses" [value]="status" (click)="addStatus(status)">
+                {{status}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Select Role</mat-label>
+            <mat-select [(ngModel)]="selectedRole">
+              <mat-option *ngFor="let role of roles" [value]="role" (click)="addRole(role)">
+                {{role}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Previous</button>
+            <button mat-button color="primary" (click)="nextStep()">Next</button>
+          </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              Add User Details
+            </mat-panel-title>
+            <mat-panel-description>
+              Add the user's profile
+              <mat-icon>save</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+      <mat-action-row>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" (click)="callAddUser()" cdkFocusInitial>Add User</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>

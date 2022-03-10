@@ -1,0 +1,107 @@
+table {
+	width: 50%;
+	border: #FE4880;
+	background-color:lightgrey;
+  }
+
+  .search{
+	  margin-right: 37%;
+  }
+
+.user-buttons-spacing{
+	margin-left: 100px;
+}
+
+.userTopButtons{
+	margin-right: 100px;
+}
+
+button{
+	margin: 5px;
+}
+
+  .header{
+	display: flex;
+}
+
+.header .id{
+	flex: 1 1 50px;
+}
+
+.header .username{
+	flex: 1 1 25%;
+}
+
+.header .firstname{
+	flex: 1 1 25%;
+}
+
+.header .middlename{
+	flex: 1 1 25%;
+}
+
+.header .lastname{
+	flex: 1 1 25%;
+}
+
+.user{
+	display: flex;
+}
+
+.user:last-of-type {
+	border-bottom: 0;
+}
+
+.user .id {
+	flex: 1 1 100px;
+}
+
+.user .username {
+	flex: 1 1 25%;
+}
+
+.user .firstname {
+	flex: 1 1 25%;
+}
+
+.user .middlename {
+	flex: 1 1 25%;
+}
+
+.user .lastname {
+	flex: 1 1 25%;
+}
+
+.user.done .content {
+	text-decoration: line-through;
+}
+
+.user-input {
+	display: block;
+	width: 100%;
+	padding: 10px 15px;
+	appearance: none;
+	border: none;
+	background-color: #F3F3F3;
+	margin-top: 15px;
+	font-size: 20px;
+	outline: none;
+}
+
+.user-submit {
+	display: block;
+	width: 100%;
+	max-width: 200px;
+	appearance: none;
+	border: none;
+	outline: none;
+	background: none;
+
+	background-color: #FE4880;
+	color: #FFF;
+	margin: 15px auto;
+
+	padding: 10px 15px;
+	font-size: 18px;
+	font-weight: 700;
+}
