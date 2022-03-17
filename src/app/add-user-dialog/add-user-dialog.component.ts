@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import * as moment from 'moment';
+import { timestamp } from 'rxjs';
 import { addUser } from '../models/addUser';
 import { UserServicesService } from '../services/user-services.service';
+import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-add-user-dialog',
@@ -10,17 +15,18 @@ import { UserServicesService } from '../services/user-services.service';
 })
 export class AddUserDialogComponent implements OnInit {
 
-  statusId:number = 1 | 2;
+  statusId!:number;
   selectedStatus!:String;
 
-  statuses: string[] = ['Activate/Enable account', 'Disable account'];
+  statuses: string[] = [];
+  roles: String[] = [];
 
-  roleId:number = 1 | 2 | 3;
+  roleId!:number;
   selectedRole!:String;
 
-  roles: String[] = ['User', 'Customer'];
-
   address!:string;
+
+  now!: Date;
 
   user:addUser={
     userName:'',
@@ -29,12 +35,65 @@ export class AddUserDialogComponent implements OnInit {
     userLastName:'',
     userPassword:'',
     userStatusId:0,
+    userCreated: ''
   };
 
-  constructor(private userServices:UserServicesService) { }
+  constructor(
+    public dialogRef: MatDialogRef<AddUserDialogComponent>,
+    private userServices:UserServicesService,
+    private snackBar:MatSnackBar) { }
 
   ngOnInit(): void {
-    console.log(this.roleId);
+    this.now = new Date();
+    this.user.userCreated = this.formatDate(this.now);
+    console.log(this.formatDate(this.now))
+    this.userServices.fetchAccountStatusOptions().subscribe(result=>{
+      for(let i = 0; i < result.roles.length; i++){
+        if(result.roles[i].roleName != 'admin'){
+          this.roles.push(this.capitalize(result.roles[i].roleName))
+        }
+      }
+      for(let i = 0; i < result.statuses.length; i++){
+        if(result.statuses[i].statusName != 'deleted'){
+          this.statuses.push(this.capitalize(result.statuses[i].statusName))
+        }
+      }
+      console.log(this.roles)
+    });
+  }
+
+  padTo2Digits(num:number) {
+    return num.toString().padStart(2, '0');
+  }
+
+  formatDate(date:Date) {
+    return (
+      [
+        date.getFullYear(),
+        this.padTo2Digits(date.getMonth() + 1),
+        this.padTo2Digits(date.getDate()),
+      ].join('-')
+      +
+      'T'
+       +
+      [
+        this.padTo2Digits(date.getHours()),
+        this.padTo2Digits(date.getMinutes()),
+        this.padTo2Digits(date.getSeconds()),
+      ].join(':')
+      // +
+      // '.'
+      // +
+      // [
+      //   this.padTo2Digits(date.getMilliseconds())
+      // ].join()
+      // +
+      // 'Z'
+    );
+  }
+
+  capitalize(roleName:string) {
+    return roleName.charAt(0).toUpperCase() + roleName.slice(1);
   }
 
   step = 0;
@@ -62,6 +121,7 @@ export class AddUserDialogComponent implements OnInit {
 
   nextStep() {
     this.step++;
+    console.log(this.user)
   }
 
   prevStep() {
@@ -105,35 +165,44 @@ export class AddUserDialogComponent implements OnInit {
     ]
   }
 
+  openSnackBar(message:string) {
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      duration: 2000,
+      data: message
+    });
+  }
+
   callAddUser(){
     if(this.user.userName == '' || 
       this.user.userFirstName == '' ||
       this.user.userMiddleName == '' ||
       this.user.userLastName == ''){
-        alert("User Details incomplete!")
+        this.openSnackBar("User Details incomplete!")
       }
 
       if(this.user.userPassword == ''){
-        alert("Enter user password!")
+        this.openSnackBar("Enter user password!")
       }
 
       if(this.user.userStatusId == 0){
-        alert("Assign the user an account status!")
+        this.openSnackBar("Assign the user an account status!")
       }
 
       if(this.roleId == 0){
-        alert("Choose a role!")
+        this.openSnackBar("Choose a role!")
       }
 
       if(this.address == ''){
-        alert("Enter an address")
+        this.openSnackBar("Enter an address")
       }
 
       if(!(this.user.userName == '') && !(this.user.userFirstName == '') && !(this.user.userMiddleName == '') && !(this.user.userLastName == '')
         && !(this.user.userPassword == '') && this.user.userStatusId == 1 || 2, this.roleId == 1 || 2 || 3, !(this.address == '')){
-
+          console.log(this.user.userCreated)
           this.userServices.addUser(this.user, this.roleId, this.address).subscribe(result=>{
             console.log(result)
+            this.dialogRef.close();
+            this.openSnackBar("User added successfully!")
           })
 
         }

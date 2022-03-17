@@ -1,0 +1,16 @@
+.mat-divider.mat-divider-vertical {
+    height: fit-content;
+    display: block;
+    margin: 15px;
+    border-right-width: 4px;
+    border-right-color: grey;
+    }
+
+.user-details{
+    padding-left: 55px;
+    padding-top: 20px;
+}
+
+p{
+    font-weight: 500;
+}

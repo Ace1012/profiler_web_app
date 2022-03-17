@@ -1,5 +1,6 @@
 import {Component,OnInit, Inject} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { ThemePalette } from '@angular/material/core';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { updateUser } from '../models/updateUser';
 import { user } from '../models/user';
 import { UserServicesService } from '../services/user-services.service';
@@ -12,21 +13,39 @@ import { UserServicesService } from '../services/user-services.service';
 export class UpdateUserDialogComponent implements OnInit {
 
   user!:user;
+  statusOptions!:string[]
+
+  username!:string;
+
+  checked = false;
+  enabled = "Disabled"
 
   updateUser:updateUser = {
     userId:0,
     userName: '',
-    userPassword:''
+    userStatusId:2
   };
 
   constructor(
     public dialogRef: MatDialogRef<UpdateUserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public userDetails: user,
+    @Inject(MAT_DIALOG_DATA) public data: {user:user, statuses:string[]},
     private userService:UserServicesService
   ) {
-    // console.log(userDetails);
-    this.user = userDetails;
-    console.log(this.user);
+    console.log(data);
+    this.user = data.user
+    this.statusOptions = data.statuses
+    this.updateUser.userName = this.user.username
+    console.log(this.statusOptions)
+  }
+
+  onToggle(){
+    this.checked = !this.checked;
+    if(this.checked){
+      this.enabled = "Enabled"
+    }else{
+      this.enabled = "Disabled"
+    }
+    this.updateUser.userStatusId = (this.statusOptions.indexOf(this.enabled) + 1)
   }
 
   onNoClick(): void {

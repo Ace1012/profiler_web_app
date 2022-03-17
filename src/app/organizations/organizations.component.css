@@ -1,0 +1,42 @@
+mat-expansion-panel{
+    width: 70%;
+    height: fit-content;
+}
+
+mat-accordion{
+    margin-bottom: 10px;
+}
+
+mat-expansion-panel .selected { 
+    border: solid 2px red;
+  }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
+    grid-auto-rows: minmax(150px, auto);
+    width: 70%;
+    margin-left: 250px;
+    /* margin: 100px;
+    margin-top: 100px;
+    margin-bottom: 100px; */
+}
+
+.org-top-buttons{
+	margin-right: 100px;
+}
+
+button{
+    margin: 5px;
+    background-color: rosybrown;
+    color: white;
+}
+
+button:hover{
+    background-color: green;
+}
+
+.service-name{
+    font-size: 15px;
+}

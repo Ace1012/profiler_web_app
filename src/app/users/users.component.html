@@ -1,4 +1,4 @@
-<div fxLayoutAlign="center center" fxLayout="space-between" class="user-service-buttons">
+<div fxLayoutAlign="center center" fxLayout="space-between">
     <button mat-raised-button color="primary" (click)="displayUsers()" class="userTopButtons">Get All Users</button>
     <button mat-raised-button color="primary" (click)="openAddDialog()" class="userTopButtons">Add User</button>
     <button mat-raised-button color="primary" (click)="clearUsers()" class="userTopButtons">Clear Users List</button>
@@ -13,7 +13,7 @@
   </mat-form-field>
 </div>
 <div fxLayoutAlign="center center">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-table">
   
         <!-- ID Column -->
         <ng-container matColumnDef="ID">
@@ -43,19 +43,41 @@
         <ng-container matColumnDef="LASTNAME">
             <th mat-header-cell *matHeaderCellDef> LASTNAME </th>
             <td mat-cell *matCellDef="let element"> {{element.lastname}} </td>
-          </ng-container>
+        </ng-container>
+
+        <!-- USER-STATUS column -->
+        <ng-container matColumnDef="USER-STATUS" class="statuses">
+          <th mat-header-cell *matHeaderCellDef> USER-STATUS </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-chip-list>
+              <mat-chip *ngIf="element.status == 'enabled'" class="enabled" selected>
+              {{element.status}}
+            </mat-chip>
+            <mat-chip *ngIf="element.status == 'disabled'"  class="disabled" selected>
+              {{element.status}}
+            </mat-chip>
+          </mat-chip-list>
+          </td>
+        </ng-container>
+
+        <!-- DATE-CREATED column -->
+        <ng-container matColumnDef="DATE-CREATED">
+          <th mat-header-cell *matHeaderCellDef> DATE-CREATED </th>
+          <td mat-cell *matCellDef="let element">{{element.dateCreated}}</td>
+        </ng-container>
     
           <!-- USER-OPERATIONS Column -->
         <ng-container matColumnDef="USER-OPERATIONS">
           <th mat-header-cell *matHeaderCellDef> USER-OPERATIONS </th>
             <td mat-cell *matCellDef="let element">
-                 <button mat-raised-button color="primary" (click)="[openUpdateDialog(element)]">UPDATE</button> 
-                 <button mat-raised-button color="warn" (click)="[openDeleteDialog(element)]">DELETE</button>
+                 <button mat-raised-button class="user-operation-buttons" color="primary" (click)="[openUpdateDialog(element)]">UPDATE</button> 
+                 <button mat-raised-button class="user-operation-buttons" color="warn" (click)="[openDeleteDialog(element)]">DELETE</button>
+                 <button mat-raised-button class="more-button" (click)="[openBottomSheet(element)]"><mat-icon>more_horiz</mat-icon></button>
             </td>
           </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row [@rowsAnimation]="" *matRowDef="let row; columns: displayedColumns;"></tr>
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>

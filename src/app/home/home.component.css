@@ -1,3 +1,22 @@
 .nav-bar{
     padding: 20px;
 }
+
+button{
+    white-space: initial;
+}
+
+.route-button:hover {
+    background-color: green;
+  }
+
+mat-toolbar{
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.home-image{
+    width: 50%;
+    height: 100ex;
+}

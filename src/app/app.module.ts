@@ -15,7 +15,12 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSelectModule} from '@angular/material/select';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
@@ -26,6 +31,11 @@ import { UsersComponent } from './users/users.component';
 import { UpdateUserDialogComponent } from './update-user-dialog/update-user-dialog.component';
 import { DeleteUserDialogComponent } from './delete-user-dialog/delete-user-dialog.component';
 import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
+import { SnackBarComponent } from './snack-bar/snack-bar.component';
+import { CustomHttpInterceptor } from './interceptor/HttpInterceptor';
+import { UserMoreDetailsComponent } from './user-more-details/user-more-details.component';
+import { OrganizationsComponent } from './organizations/organizations.component';
+import { AddOrganizationDialogComponent } from './add-organization-dialog/add-organization-dialog.component';
 
 
 
@@ -37,7 +47,11 @@ import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.compon
     UsersComponent,
     UpdateUserDialogComponent,
     DeleteUserDialogComponent,
-    AddUserDialogComponent
+    AddUserDialogComponent,
+    SnackBarComponent,
+    UserMoreDetailsComponent,
+    OrganizationsComponent,
+    AddOrganizationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -57,10 +71,20 @@ import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.compon
     MatDialogModule,
     MatIconModule,
     MatExpansionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule,
+    MatBottomSheetModule,
+    MatDividerModule,
+    MatChipsModule,
+    MatSlideToggleModule,
+    MatButtonToggleModule
   ],
   providers: [
-    
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:CustomHttpInterceptor,
+      multi:true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,30 @@
+<div fxLayoutAlign="center center" fxLayout="space-evenly" class="org-top-buttons">
+  <button mat-raised-button (click)="openAddOrgDialog()" class="userTopButtons">Add Organization</button>
+</div>
+
+<p></p>
+
+<mat-accordion  class="grid" fxLayoutAlign="center center" *ngFor="let org of organizations; let i = index">
+
+    <mat-expansion-panel  hideToggle>
+      <mat-expansion-panel-header fxLayout="row" >
+        <mat-panel-title>
+          {{organizations[i].organizationName}}
+        </mat-panel-title>
+      <mat-panel-description fxLayoutAlign="end">
+            {{organizations[i].organizationServices.length}} service(s) available
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <ng-container *ngFor="let service of organizations[i].organizationServices; let j = index" >
+        <p><span class="service-name">Service Name: {{organizations[i].organizationServices[j].serviceName}}</span></p>
+        <button mat-raised-button fxLayoutAlign="" class="userTopButtons">Edit Service</button>
+    </ng-container>
+
+    <mat-action-row>
+      <button mat-raised-button fxLayoutAlign="" class="userTopButtons">Edit Organization</button>
+    </mat-action-row>
+    
+  </mat-expansion-panel>
+
+</mat-accordion>

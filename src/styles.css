@@ -5,3 +5,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 .example-spacer {
     flex: 1 1 auto;
   }
+  .blue-snackbar {
+    background: #2196F3;
+  }
+
+  .red-snackbar {
+    background: #ca2e19;
+  }
+
+  .purple-snackbar {
+    background: #7616cf;
+  }
+
+  .magenta-snackbar {
+    background: magenta;
+  }
+  
+  body{
+    background-color: #fefbe9;
+  }

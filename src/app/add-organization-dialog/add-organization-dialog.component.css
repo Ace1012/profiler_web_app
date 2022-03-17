@@ -1,0 +1,11 @@
+.org-name{
+    margin-bottom: 30px;
+}
+
+mat-toolbar{
+  margin-bottom: 10px;
+  background-color: rosybrown;
+  color: white;
+  justify-content: center;
+}
+

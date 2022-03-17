@@ -1,3 +1,5 @@
+import * as moment from "moment";
+
 export class addUser{
     userName!:String;
     userFirstName!:String;
@@ -5,4 +7,5 @@ export class addUser{
     userLastName!:String;
     userPassword!:String;
     userStatusId!:number;
+    userCreated!:string;
 }

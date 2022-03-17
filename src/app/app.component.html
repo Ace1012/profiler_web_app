@@ -1,21 +1,21 @@
-<!-- <div style="text-align: center;">
-    <h1>
-        Tinka Profiler System
-    </h1>
-</div> -->
-
-    <mat-toolbar color="primary">
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>Tinka Profiler System</span>
-      <span class="example-spacer"></span>
-      <button mat-icon-button (click)="backToLogin()" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <mat-icon>logout</mat-icon>
-      </button>
-      <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon>share</mat-icon>
-      </button> -->
+    <mat-toolbar class="toolbar" fxLayoutAlign="center center" fxLayout="space-evenly">
+        <div fxFlex fxLayoutAlign="row " fxLayout="space-between">
+          <button mat-icon-button *ngIf="currentRouter != '/'" class="home-icon" aria-label="Example icon-button with menu icon" (click)="goToHome()">
+            <mat-icon class="toolbar-buttons" [routerLink]="['home']" [routerLinkActive]="['active']" >home</mat-icon>
+          </button>
+          <h1 class="site-name" class="no-interaction"><span>Profiler System</span></h1>
+          <h1 *ngIf="currentRouter != '/'" class="username"><span>{{username}}</span></h1>
+        </div>
+          <div fxFlex="63%">
+            <a class="nav" [routerLink]="['users']" [routerLinkActive]="['active']" (click)="goToUsers()" *ngIf="reveal && currentRouter != '/'" >Users</a>
+            <a class="nav" *ngIf="currentRouter != '/'" [routerLink]="['organizations']" [routerLinkActive]="['active']" (click)="goToOrgs(); activateRoute('organizations')">Organizations</a>
+            <a class="nav" *ngIf="currentRouter != '/'" >Services</a>
+          </div>
+        <div fxFlex = "3%">
+          <button mat-icon-button *ngIf="currentRouter != '/'" (click)="backToLogin()" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+            <mat-icon class="toolbar-buttons">logout</mat-icon>
+          </button>
+        </div>
     </mat-toolbar>
     <p></p>
   

@@ -1,9 +1,10 @@
-<div fxLayoutAlign="center center" fxFlexFill class="main-div">
+<div fxLayoutAlign="center center" class="main-div">
     <mat-card fxFlex="20">
-        <mat-toolbar color="primary">
-            Login Page
+        <mat-toolbar class="test-theme">
+            Profiler Sign In
         </mat-toolbar>
         <form fxLayoutAlign="stretch" fxLayout="column" class="login-form" [formGroup]="formGroup" (ngSubmit)="loginProcess()">
+            <p><span>Please sign in</span></p>
             <mat-form-field >
               <input matInput placeholder="Enter your username" formControlName="username">
             </mat-form-field>
@@ -11,7 +12,7 @@
             <mat-form-field >
                 <input matInput type="password" placeholder="Enter your password" formControlName="password">
               </mat-form-field>
-              <button mat-raised-button type="submit" color="primary">Login</button>
+              <button mat-raised-button type="submit" class="test-theme">Login</button>
           </form>
           
     </mat-card>

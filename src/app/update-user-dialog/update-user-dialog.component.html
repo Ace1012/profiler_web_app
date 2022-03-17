@@ -8,10 +8,8 @@
       </mat-form-field>
   </div>
   <div>
-    <mat-form-field>
-        <mat-label>Enter new password:</mat-label>
-        <input matInput [(ngModel)]="updateUser.userPassword" type="password">
-      </mat-form-field>
+    <mat-button-toggle class="enabled" *ngIf="enabled == 'Enabled'" (change)="onToggle()">{{enabled}}</mat-button-toggle>
+    <mat-button-toggle class="disabled" *ngIf="enabled == 'Disabled'" (change)="onToggle()">{{enabled}}</mat-button-toggle>
   </div>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end none">

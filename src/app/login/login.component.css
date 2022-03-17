@@ -1,7 +1,13 @@
-/* .main-div mat-card{
+.main-div mat-card{
     padding: 0%;
+    margin-top: 10%;
 }
 
 .login-form{
     padding: 20px;
-} */
+}
+
+.test-theme{
+    background-color: rosybrown;
+    color: white;
+}

@@ -1,0 +1,56 @@
+.nav{
+    margin: 45px;
+    color: rosybrown;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: none;
+}
+
+.nav:hover{
+    color: green;
+}
+
+body{
+    background-color: #fefbe9;
+}
+
+.home-icon{
+    margin-right: 15px;
+    margin-top: 0px;
+}
+
+.site-name{
+    margin-right: 15px;
+}
+
+.username{
+    margin-left: 50px;
+}
+
+.active{
+    color: green;
+    text-decoration: none;
+}
+
+/* .no-interaction:hover{
+    opacity: 20%;
+} */
+
+.toolbar-buttons:hover{
+    color: green;
+}
+
+.toolbar-buttons{
+    font-size: 7ex;
+    margin-right: 10px;
+}
+
+.toolbar:hover{
+    cursor: pointer;
+}
+
+.toolbar{
+    /* background-color: rosybrown; */
+    background-color: transparent;
+    color: rosybrown;
+    margin-bottom: 100px;
+}
