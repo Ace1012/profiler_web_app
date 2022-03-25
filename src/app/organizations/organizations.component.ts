@@ -3,25 +3,46 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddOrganizationDialogComponent } from '../add-organization-dialog/add-organization-dialog.component';
 import { Address } from '../models/address';
 import { Organization } from '../models/organization';
-import { Service } from '../models/service';
+import { Service } from '../models/organization-service';
 import { OrgServicesService } from '../services/org-services.service';
+import { rowsAnimation } from '../rows-animation';
+import { UserServicesService } from '../services/user-services.service';
+import { lastValueFrom } from 'rxjs';
+import { ServiceModel } from '../models/service-display';
+import { UpdateServiceDialogComponent } from '../update-service-dialog/update-service-dialog.component';
 
 @Component({
   selector: 'app-organizations',
   templateUrl: './organizations.component.html',
-  styleUrls: ['./organizations.component.css']
+  styleUrls: ['./organizations.component.css'],
+  animations: [rowsAnimation]
 })
 export class OrganizationsComponent implements OnInit {
 
-  constructor(private orgServices:OrgServicesService, private dialog:MatDialog) { }
+  roleDB!:string;
+
+  constructor(
+    private orgServices:OrgServicesService,
+    private dialog:MatDialog,
+    private userService:UserServicesService
+     ) { }
 
   ngOnInit(): void {
     this.getOrgs();
+    this.getDBRole()
+  }
+
+  async getDBRole(){
+    await lastValueFrom(this.userService.getUserRole()).then((roleBean)=>{
+        this.roleDB = roleBean.roleName;
+        console.log("This is the role: ")
+        console.log(this.roleDB)
+    })
   }
 
   organizations:Organization[] = [];
   addresses:Address[] = [];
-  services:Service[] = [];
+  services:ServiceModel[] = [];
 
   openAddOrgDialog(): void {
     const dialogRef = this.dialog.open(AddOrganizationDialogComponent, {
@@ -35,6 +56,23 @@ export class OrganizationsComponent implements OnInit {
     });
   }
 
+  openUpdateServiceDialog(service:ServiceModel): void{
+    console.log(`The org ID is`)
+    console.log(service.serviceOrganizationId)
+    const dialogRef = this.dialog.open(UpdateServiceDialogComponent, {
+      width: '500px',
+      height:'fit-content',
+      data: service,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("Server response is ")
+      console.log(result)
+      this.services = [];
+      this.getOrgs();
+    });
+  }
+
   getOrgs(){
     this.organizations = []
     this.orgServices.getAllOrgs().subscribe(result=>{
@@ -43,12 +81,14 @@ export class OrganizationsComponent implements OnInit {
 
         for(let j = 0; j < result[i].organizationServices.length; j++){
           if(result[i].organizationId == result[i].organizationServices[j].serviceOrganizationId){
-            let service:Service ={
+            let service:ServiceModel ={
               serviceId: result[i].organizationServices[j].serviceId,
               serviceName: result[i].organizationServices[j].serviceName,
               serviceStart: result[i].organizationServices[j].serviceStart,
-              serviceEnd:result[i].organizationServices[j].serviceEnd,
-              serviceOrganizationId:result[i].organizationServices[j].serviceOrganizationId
+              serviceEnd: result[i].organizationServices[j].serviceEnd,
+              serviceOrganizationId: result[i].organizationServices[j].serviceOrganizationId,
+              serviceStatus: result[i].organizationServices[j].serviceStatus,
+              organization: null
             }
             this.services.push(service);
           }

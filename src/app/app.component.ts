@@ -1,8 +1,10 @@
-import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
+import { User } from './models/user';
 import { AuthServiceService } from './services/auth-service.service';
+import { UserServicesService } from './services/user-services.service';
 import { SnackBarComponent } from './snack-bar/snack-bar.component';
 
 @Component({
@@ -12,41 +14,73 @@ import { SnackBarComponent } from './snack-bar/snack-bar.component';
 })
 export class AppComponent implements OnInit, OnDestroy{
   title = 'tinka_profiler';
-  currentRouter = '';
+  currentRouter: string = '/';
   routeSub;
   username='';
   reveal:boolean = false;
   activatedRoute="";
+  time!: number;
+  user!:User;
   
-  constructor(private location:Location , private router:Router, private authService:AuthServiceService, private snackBar:MatSnackBar){
+  constructor(private userService:UserServicesService , private router:Router, private authService:AuthServiceService, private snackBar:MatSnackBar){
     this.routeSub = router.events.subscribe((val) => {
+
       if(val instanceof NavigationStart){
-        // if(authService.isLoggedIn() == false){
-        //   console.log("Not logged in!")
-        //   authService.logout();
-        // }
         if(val.url != 'home'){
           this.revealButton();
         }
       }
 
       if(val instanceof NavigationEnd){
-        this.currentRouter = val.url;
+
+        // console.log(`Current`)
+        // console.log(this.currentRouter)
+
+        // console.log(`\n\n`)
+
+        // console.log(`Destination`)
+        // console.log(val.url)
+
+        // console.log(`\n\n`)
+
+        // console.log(`Logged in is`)
+        // console.log(authService.isLoggedIn())
+
         if(val.url != '/'){
-          this.username = authService.getUserName();
+          if(authService.isLoggedIn()){
+            console.log(`I made it!`)
+            this.username = this.authService.getUserName();
+          }
+          this.checkIdle();
         }
+
+        if(this.currentRouter == '/' && val.url == '/home' && authService.isLoggedIn()){
+          this.getUserProfile()
+        }
+
+        this.currentRouter = val.url;
+        
       }
     })
   }
   ngOnInit(): void {
     this.revealButton();
+    // this.getUserProfile()
+    // this.checkIdle();
+  }
+
+  async getUserProfile(){
+    console.log(`Helloooooooooo`)
+    await lastValueFrom(this.userService.fetchUser(this.username)).then((fetchedUser)=>{
+      console.log(fetchedUser)
+    })
   }
 
   activateRoute(activatedRoute: string) {
     this.activatedRoute = activatedRoute;
   }
 
-  //Navigation functions
+  //Navigation functions START
   goToUsers(){
     this.router.navigate(['/users']);
   }
@@ -55,28 +89,39 @@ export class AppComponent implements OnInit, OnDestroy{
     this.router.navigate(['/organizations']);
   }
 
-  revealButton(){
-    let role = localStorage.getItem('current-user-role')
-    // console.log(`Role is ${role}`)
-    if(role == 'admin'){
-      this.reveal = true;
-    }else{
-      this.reveal = false;
-    }
+  goToServices(){
+    this.router.navigate(['services']);
   }
+  //Navigation functions END
 
-  goBack() {
-    this.location.back();
+  async revealButton(){
+    // let role = localStorage.getItem('current-user-role')
+    let roleDB;
+    await this.userService.getUserRole().subscribe(result=>{
+      roleDB = result.roleName
+
+      if(roleDB == 'admin'){
+        this.reveal = true;
+      }else{
+        this.reveal = false;
+      }
+    });
+    // console.log(`Role is ${role}`)
   }
 
   backToLogin(){
     this.openSnackBar('Logged out!')
     this.authService.logout();
-
     this.router.navigate(['']);
     localStorage.removeItem('token')
     localStorage.removeItem('current-user-role')
-    
+  }
+
+  idleBackToLogin(){
+    this.authService.logout();
+    this.router.navigate(['']);
+    localStorage.removeItem('token')
+    localStorage.removeItem('current-user-role')
   }
 
   goToHome(){
@@ -89,6 +134,20 @@ export class AppComponent implements OnInit, OnDestroy{
       data: message,
       panelClass:['red-snackbar']
     });
+  }
+
+  @HostListener('document:mousemove')
+  @HostListener('document:keypress')
+  @HostListener('document:click')
+  @HostListener('document:wheel')
+  checkIdle() {
+    if(this.authService.isLoggedIn()){
+      clearTimeout(this.time);
+    this.time = window.setTimeout(() => {
+      this.openSnackBar("Logged out due to inactivity!")
+      this.idleBackToLogin()
+    }, 600000);
+    }
   }
 
   ngOnDestroy(){

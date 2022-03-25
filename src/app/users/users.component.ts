@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
-import { user } from '../models/user';
+import { User } from '../models/user';
 import {MatDialog} from '@angular/material/dialog';
 import { UpdateUserDialogComponent } from '../update-user-dialog/update-user-dialog.component';
 import { deleteUser } from '../models/deleteUser';
@@ -27,15 +27,15 @@ export class UsersComponent implements OnInit {
 
   displayedColumns: string[] = ['ID', 'USERNAME', 'FIRSTNAME', 'MIDDLENAME', 'LASTNAME', 'DATE-CREATED' , 'USER-STATUS', 'USER-OPERATIONS'];
 
-  user!:user;
-  users:user[]=[];
+  user!:User;
+  users:User[]=[];
   addresses:Address[] = [];
   contacts:contact[] = [];
 
   statuses: string[] = [];
   roles: String[] = [];
 
-  dataSource!: user[] | MatTableDataSource<user>;
+  dataSource!: User[] | MatTableDataSource<User>;
 
   username!:String;
 
@@ -93,13 +93,14 @@ export class UsersComponent implements OnInit {
 
         let myMoment: moment.Moment = moment(result[i].userCreated);
         
-        let user:user = {
+        let user:User = {
           userid:result[i].userId,
           username: result[i].userName,
           firstname: result[i].userFirstName,
           middlename: result[i].userMiddleName,
           lastname: result[i].userLastName,
-          dateCreated: myMoment.toString().substring(4,24),
+          // dateCreated: myMoment.toString().substring(4,24),
+          dateCreated: myMoment.toString(),
           status: result[i].statusBean.statusName,
           addresses: this.addresses,
           contacts: this.contacts,
@@ -119,7 +120,7 @@ export class UsersComponent implements OnInit {
     this.dataSource = [];
   }
 
-  openUpdateDialog(user:user): void {
+  openUpdateDialog(user:User): void {
     console.log(`This is the user`)
     console.log(user)
     this.user = user;
@@ -149,7 +150,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  openDeleteDialog(user:user): void{
+  openDeleteDialog(user:User): void{
     let deleteUser:deleteUser = {
       userId:user.userid,
     };
@@ -167,7 +168,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  openBottomSheet(user:user): void {
+  openBottomSheet(user:User): void {
     this.moreDetails.open(UserMoreDetailsComponent, {
       data: user
     });

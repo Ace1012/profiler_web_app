@@ -18,6 +18,8 @@ export class UsersGuard implements CanActivate{
     async getRole(){
         await lastValueFrom(this.userService.getUserRole()).then((data)=>{
             if(data != EMPTY){
+                console.log(`This is the user's role`)
+                console.log(data)
                 this.roleDB = data.roleName;
             }
         },
@@ -34,13 +36,12 @@ export class UsersGuard implements CanActivate{
         
         let loggedIn = this.authService.isLoggedIn();
 
-        console.log(`Role is ${role}`);
-        console.log(`RoleDB is ${this.roleDB}`);
-
         if(this.authService.isLoggedIn() && role == this.roleDB && role == 'admin'){
+            console.log(`The user passed the users.guard with role: `)
             console.log(role);
             return true;
         }
+        
         if(loggedIn == false || role == null){
             console.log("I'm not logged in!")
             this.openSnackBar("Please log in!")

@@ -6,4 +6,5 @@ export class Service{
     serviceStart!:Timestamp<Date>;
     serviceEnd!:Timestamp<Date>;
     serviceOrganizationId!:number;
+    serviceStatus!:number;
 }

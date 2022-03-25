@@ -3,27 +3,27 @@
         Enter organization details
     </mat-toolbar>
     <div class="org-name" fxLayoutAlign="space-between">
-        <mat-form-field hintLabel="Max 10 characters" appearance="fill">
+        <mat-form-field appearance="fill">
             <mat-label>Enter organization name</mat-label>
             <input #orgName matInput maxlength="30" placeholder="Ex. Tinka Networks">
-            <mat-hint fxAlign="end">{{orgName.value?.length || 0}}/30</mat-hint>
+            <mat-hint fxAlign="end">Enter organization name {{orgName.value?.length || 0}}/30</mat-hint>
         </mat-form-field>
-        <mat-form-field hintLabel="Enter organzation mobile" appearance="fill">
+        <mat-form-field appearance="fill">
             <mat-label>Enter organization mobile number</mat-label>
             <input #orgMobile type="datetime" matInput maxlength="10" placeholder="Ex. 0712345678">
-            <mat-hint fxAlign="end">{{orgMobile.value?.length || 0}}/10</mat-hint>
+            <mat-hint fxAlign="end">Enter organzation mobile {{orgMobile.value?.length || 0}}/10</mat-hint>
         </mat-form-field>
     </div>
     <div class="org-mobile" fxLayoutAlign="space-between">
-        <mat-form-field hintLabel="Enter organzation mobile" appearance="fill">
+        <mat-form-field appearance="fill">
             <mat-label>Enter organization postal</mat-label>
             <input #orgPostal matInput maxlength="30" placeholder="Ex. P.O.Box 12121">
-            <mat-hint fxAlign="end">{{orgPostal.value?.length || 0}}/30</mat-hint>
+            <mat-hint fxAlign="end">Enter organzation mobile {{orgPostal.value?.length || 0}}/30</mat-hint>
         </mat-form-field>
-        <mat-form-field hintLabel="Enter organzation address" appearance="fill">
+        <mat-form-field appearance="fill">
             <mat-label>Enter organization address</mat-label>
             <input #orgAddress matInput maxlength="100" placeholder="Ex. Magnate Ventures">
-            <!-- <mat-hint fxAlign="end">{{orgPostal.value?.length || 0}}/30</mat-hint> -->
+            <mat-hint fxAlign="end">Enter organzation address {{orgPostal.value?.length || 0}}/30</mat-hint>
         </mat-form-field>
     </div>
     <div mat-dialog-actions fxLayoutAlign="end none">

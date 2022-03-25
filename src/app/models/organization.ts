@@ -1,11 +1,12 @@
 import { Address } from "./address";
-import { Service } from "./service";
+import { Service } from "./organization-service";
+import { ServiceModel } from "./service-display";
 
 export class Organization{
     organizationId!:number;
     organizationName!:string;
     organizationMobile!:string;
     organizationPostal!:string;
-    organizationServices!:Service[];
+    organizationServices!:ServiceModel[];
     addresses!:Address[];
 }

@@ -36,14 +36,12 @@ export class AuthServiceService {
   }
 
   isLoggedIn(){
-
     let token = this.getToken();
     if(token){
       return true
     }else{
       return false
     }
-
   }
 
   logout(){

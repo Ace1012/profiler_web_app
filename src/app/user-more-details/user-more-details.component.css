@@ -11,6 +11,20 @@
     padding-top: 20px;
 }
 
-p{
+/* p{
     font-weight: 500;
+} */
+
+.no-contacts{
+    background-color: rgba(255, 0, 0, 0.774);
+    color: white;
+}
+
+.addresses{
+    /* background-color: rgb(177, 87, 87); */
+    background-color: rgb(230, 193, 193);
+    color: white;
+}
+p{
+    font-weight: bold;
 }

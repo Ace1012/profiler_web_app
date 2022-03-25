@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import { timestamp } from 'rxjs';
 import { addUser } from '../models/addUser';
+import { Role } from '../models/role';
+import { Status } from '../models/status';
 import { UserServicesService } from '../services/user-services.service';
 import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 
@@ -20,6 +22,9 @@ export class AddUserDialogComponent implements OnInit {
 
   statuses: string[] = [];
   roles: String[] = [];
+
+  statusesObjects:Status[] = [];
+  roleObjects:Role[] = [];
 
   roleId!:number;
   selectedRole!:String;
@@ -47,7 +52,14 @@ export class AddUserDialogComponent implements OnInit {
     this.now = new Date();
     this.user.userCreated = this.formatDate(this.now);
     console.log(this.formatDate(this.now))
+
     this.userServices.fetchAccountStatusOptions().subscribe(result=>{
+      console.log("This is the result")
+      console.log(result)
+
+      this.statusesObjects = result.statuses;
+      this.roleObjects = result.roles;
+
       for(let i = 0; i < result.roles.length; i++){
         if(result.roles[i].roleName != 'admin'){
           this.roles.push(this.capitalize(result.roles[i].roleName))
@@ -58,7 +70,6 @@ export class AddUserDialogComponent implements OnInit {
           this.statuses.push(this.capitalize(result.statuses[i].statusName))
         }
       }
-      console.log(this.roles)
     });
   }
 
@@ -131,15 +142,30 @@ export class AddUserDialogComponent implements OnInit {
   }
 
   addStatus(status:String){
-    this.statusId = ((this.statuses.findIndex(x => x === status)) + 1);
-    this.user.userStatusId = this.statusId;
-    console.log("This is the value " + this.statusId);
+    for(let statusObject of this.statusesObjects){
+      if(statusObject.statusName == status.toLowerCase()){
+        this.statusId = statusObject.statusId;
+        this.user.userStatusId = this.statusId;
+        console.log(`This is the status id ${this.statusId}`)
+        break;
+      }
+    }
   }
 
   addRole(role:String){
-    this.roleId = ((this.roles.findIndex(x => x === role)) + 2);
-    console.log("This is the role ID " + this.roleId);
+    for(let roleObject of this.roleObjects){
+      if(roleObject.roleName == role.toLowerCase()){
+        this.roleId = roleObject.roleId;
+        console.log(`This is the role id ${this.roleId}`)
+        break;
+      }
+    }
   }
+
+  // addRole(role:String){
+  //   this.roleId = ((this.roles.findIndex(x => x === role)) + 2);
+  //   console.log("This is the role ID " + this.roleId);
+  // }
 
   addAddress(address:string){
     this.address = address;
@@ -199,6 +225,7 @@ export class AddUserDialogComponent implements OnInit {
       if(!(this.user.userName == '') && !(this.user.userFirstName == '') && !(this.user.userMiddleName == '') && !(this.user.userLastName == '')
         && !(this.user.userPassword == '') && this.user.userStatusId == 1 || 2, this.roleId == 1 || 2 || 3, !(this.address == '')){
           console.log(this.user.userCreated)
+          console.log(this.user)
           this.userServices.addUser(this.user, this.roleId, this.address).subscribe(result=>{
             console.log(result)
             this.dialogRef.close();

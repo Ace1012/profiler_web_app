@@ -1,0 +1,63 @@
+.service-card {
+    max-width: 350px;
+    background-color: rosybrown;
+    color: white;
+    /* background-color: rgb(240, 198, 198);
+    color: black; */
+  }
+
+  .service-card .enabled{
+    background-color: green;
+    color: white;
+  }
+
+  .service-card .disabled{
+    background-color: red;
+    color: white;
+  }
+
+.subtitle{
+  color: white;
+}
+
+.edit{
+  background-color: rgb(53, 53, 139);
+  color: white;
+}
+
+.subscribe{
+  background-color: rgb(143, 42, 143);
+  color: white;
+}
+
+.delete{
+  background-color: rgb(192, 13, 13);
+  color: white;
+}
+  
+.service-header-image {
+  /* background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg'); */
+  background-image: url('/assets/images/tinka-networks-home.gif');
+  background-size: cover;
+}
+
+.service-top-buttons{
+  margin-bottom: 50px;
+}
+
+.add-service-button{
+  background-color: rosybrown;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1em;
+  grid-auto-rows: minmax(100px, auto);
+  width: 70%;
+  margin-left: 250px;
+  /* margin: 100px;
+  margin-top: 100px;
+  margin-bottom: 100px; */
+}

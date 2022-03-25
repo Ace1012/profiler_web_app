@@ -21,6 +21,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
@@ -36,6 +39,9 @@ import { CustomHttpInterceptor } from './interceptor/HttpInterceptor';
 import { UserMoreDetailsComponent } from './user-more-details/user-more-details.component';
 import { OrganizationsComponent } from './organizations/organizations.component';
 import { AddOrganizationDialogComponent } from './add-organization-dialog/add-organization-dialog.component';
+import { ServicesComponent } from './organization-services/services.component';
+import { UpdateServiceDialogComponent } from './update-service-dialog/update-service-dialog.component';
+import { AddServiceDialogComponent } from './add-service-dialog/add-service-dialog.component';
 
 
 
@@ -51,7 +57,10 @@ import { AddOrganizationDialogComponent } from './add-organization-dialog/add-or
     SnackBarComponent,
     UserMoreDetailsComponent,
     OrganizationsComponent,
-    AddOrganizationDialogComponent
+    AddOrganizationDialogComponent,
+    ServicesComponent,
+    UpdateServiceDialogComponent,
+    AddServiceDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +86,10 @@ import { AddOrganizationDialogComponent } from './add-organization-dialog/add-or
     MatDividerModule,
     MatChipsModule,
     MatSlideToggleModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatTabsModule
   ],
   providers: [
     {

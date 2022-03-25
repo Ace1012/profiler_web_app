@@ -1,0 +1,40 @@
+<!-- <p>update-service works!</p>
+<p>{{service.serviceName}}</p> -->
+
+<div mat-dialog-content fxLayoutAlign="center center" fxLayout="column">
+    <h1>Update <span class="serviceName">{{oldService.serviceName}}</span>'s details?</h1>
+    <div>
+        <mat-form-field>
+          <mat-label>Enter new service name:</mat-label>
+          <input matInput [(ngModel)]="updateService.serviceName">
+        </mat-form-field>
+    </div>
+    <!-- <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Select Account Status</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let status of statuses" [value]="status" (click)="addStatus(status.statusName)" >
+                {{status.statusName.charAt(0).toUpperCase() + status.statusName.slice(1)}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div> -->
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Select Organization</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let org of orgs" [value]="org" (click)="addOrg(org.organizationName)" >
+                {{org.organizationName}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div>
+      <mat-button-toggle class="enabled" *ngIf="enabled == 'Enabled'" (change)="onToggle()">{{enabled}}</mat-button-toggle>
+      <mat-button-toggle class="disabled" *ngIf="enabled == 'Disabled'" (change)="onToggle()">{{enabled}}</mat-button-toggle>
+    </div>
+  </div>
+  <div mat-dialog-actions fxLayoutAlign="end none">
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="updateService" (click)="callUpdate(updateService)" cdkFocusInitial>Yes</button>
+  </div>

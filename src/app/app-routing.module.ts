@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeGuard } from './guards/home.guard';
@@ -7,13 +7,15 @@ import { UsersGuard } from './guards/users.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { OrganizationsComponent } from './organizations/organizations.component';
+import { ServicesComponent } from './organization-services/services.component';
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent, canLoad:[LoginGuard]},
   {path: 'home', component: HomeComponent, canActivate:[AuthGuard], canLoad:[HomeGuard]},
-  {path:'users', component:UsersComponent, canActivate:[UsersGuard] },
-  {path:'organizations', component:OrganizationsComponent, canActivate:[AuthGuard] }
+  {path: 'users', component:UsersComponent, canActivate:[UsersGuard] },
+  {path: 'organizations', component:OrganizationsComponent, canActivate:[AuthGuard]},
+  {path: 'services', component:ServicesComponent, canActivate:[AuthGuard]}
 ];
 
 @NgModule({
@@ -21,4 +23,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [LoginComponent, HomeComponent, UsersComponent];
+export const routingComponents = [LoginComponent, HomeComponent, UsersComponent, OrganizationsComponent, ServicesComponent];

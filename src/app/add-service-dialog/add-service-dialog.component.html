@@ -1,0 +1,45 @@
+<div class="add-service" fxLayout="column">
+    <mat-toolbar>
+        Enter Service details
+    </mat-toolbar>
+
+    <div class="org-name" fxLayoutAlign="space-between">
+        <mat-form-field appearance="fill">
+            <mat-label>Enter service name</mat-label>
+            <input [required]="true" [(ngModel)]="addService.serviceName" matInput maxlength="30" placeholder="Ex. Pizza Delivery">
+            <mat-hint fxAlign="end">Enter Service Name {{addService.serviceName.length || 0}}/30</mat-hint>
+        </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Choose the service start date</mat-label>
+        <input [required]="true" #date [ngModel]="chosenDate" (ngModelChange)="onDateChange($event)" matInput [matDatepicker]="picker" (dateInput)="getDateValues(chosenDate)" >
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    
+    <div>
+    <mat-form-field appearance="fill">
+        <mat-label>Select Organization</mat-label>
+        <mat-select [required]="true">
+            <mat-option *ngFor="let org of orgs" [value]="org" (click)="addOrg(org.organizationId)" >
+            {{org.organizationName}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Select Service Status</mat-label>
+        <mat-select [required]="true">
+          <mat-option *ngFor="let status of statuses" [value]="status" (click)="addStatus(status.statusId)">
+            {{status.statusName.charAt(0).toUpperCase() + status.statusName.slice(1)}}
+          </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end none">
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button (click)="callAddService()" cdkFocusInitial>Add Service</button>
+</div>

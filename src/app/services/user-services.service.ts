@@ -31,6 +31,22 @@ export class UserServicesService {
     return this.http.get(`${baseUrl}user/fetchUsers`);
   }
 
+  fetchUser(username:string):Observable<any>{
+    console.log(`Username is`)
+    console.log(username)
+
+    console.log(`\n\n`)
+
+    let queryParams = new HttpParams();
+
+    queryParams = queryParams.append("userName", username);
+
+    console.log(`QueryParams are: `)
+    console.log(queryParams)
+
+    return this.http.get(`${baseUrl}user/fetchUser`, {params: queryParams})
+  }
+
   addUser(user:addUser, roleId:number, address:string):Observable<any>{
     let queryParams = new HttpParams();
 
@@ -57,12 +73,12 @@ export class UserServicesService {
     let token = this.authService.getToken() as string;
     if(token != null){
       let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
-    let username = decodedJWT.sub;
+      let username = decodedJWT.sub;
 
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("userName", username);
-    
-    return this.http.get(`${baseUrl}user/getUserRole`, {params: queryParams});
+      let queryParams = new HttpParams();
+      queryParams = queryParams.append("userName", username);
+      
+      return this.http.get(`${baseUrl}user/getUserRole`, {params: queryParams});
     }else{
       return EMPTY
     }
@@ -70,6 +86,16 @@ export class UserServicesService {
 
   fetchAccountStatusOptions():Observable<any>{
     return this.http.get(`${baseUrl}user/fetchAccountStatusOptions`);
+  }
+
+  getUserId(userName:string):Observable<any>{
+    let token = this.authService.getToken() as string;
+    let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
+    let username = decodedJWT.sub;
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("userName", username);
+    return this.http.get(`${baseUrl}user/getUserIdByName`, {params:queryParams})
   }
 
 }

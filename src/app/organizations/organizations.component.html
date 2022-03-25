@@ -1,30 +1,46 @@
 <div fxLayoutAlign="center center" fxLayout="space-evenly" class="org-top-buttons">
-  <button mat-raised-button (click)="openAddOrgDialog()" class="userTopButtons">Add Organization</button>
+  <button *ngIf="roleDB == 'admin'" mat-raised-button (click)="openAddOrgDialog()" class="userTopButtons">Add Organization</button>
 </div>
 
 <p></p>
 
 <mat-accordion  class="grid" fxLayoutAlign="center center" *ngFor="let org of organizations; let i = index">
-
-    <mat-expansion-panel  hideToggle>
+    <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header fxLayout="row" >
         <mat-panel-title>
           {{organizations[i].organizationName}}
         </mat-panel-title>
       <mat-panel-description fxLayoutAlign="end">
-            {{organizations[i].organizationServices.length}} service(s) available
+            {{organizations[i].organizationServices.length}} service(s) available at the moment
       </mat-panel-description>
     </mat-expansion-panel-header>
 
     <ng-container *ngFor="let service of organizations[i].organizationServices; let j = index" >
+      <div>
         <p><span class="service-name">Service Name: {{organizations[i].organizationServices[j].serviceName}}</span></p>
-        <button mat-raised-button fxLayoutAlign="" class="userTopButtons">Edit Service</button>
+      <button *ngIf="roleDB == 'admin'" (click)="openUpdateServiceDialog(organizations[i].organizationServices[j])"
+        mat-raised-button fxLayoutAlign="" class="userTopButtons">
+        Edit Service
+      </button>
+      </div>
     </ng-container>
 
-    <mat-action-row>
+    <!-- <ng-container *ngFor="let service of organizations[i].organizationServices; let j = index" >
+        <div fxLayout="row">
+        <mat-chip-list>
+          <mat-chip>
+            <p><span class="service-name">Service Name: </span></p>
+          </mat-chip>
+          <mat-chip>
+            <span class="service-name">{{organizations[i].organizationServices[j].serviceName}}</span>
+          </mat-chip>
+        </mat-chip-list>
+        </div>
+        <button *ngIf="roleDB == 'admin'" (click)="openUpdateServiceDialog(organizations[i].organizationServices[j])"  mat-raised-button fxLayoutAlign="" class="userTopButtons">Edit Service</button>
+    </ng-container> -->
+
+    <mat-action-row *ngIf="roleDB == 'admin'">
       <button mat-raised-button fxLayoutAlign="" class="userTopButtons">Edit Organization</button>
     </mat-action-row>
-    
   </mat-expansion-panel>
-
 </mat-accordion>

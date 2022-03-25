@@ -1,5 +1,5 @@
 export class updateUser{
     userId!:number;
-    userName!:String;
+    userName!:string;
     userStatusId!:number;
 }

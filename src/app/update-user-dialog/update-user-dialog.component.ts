@@ -1,9 +1,11 @@
 import {Component,OnInit, Inject} from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { updateUser } from '../models/updateUser';
-import { user } from '../models/user';
+import { User } from '../models/user';
 import { UserServicesService } from '../services/user-services.service';
+import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-update-user-dialog',
@@ -12,7 +14,7 @@ import { UserServicesService } from '../services/user-services.service';
 })
 export class UpdateUserDialogComponent implements OnInit {
 
-  user!:user;
+  user!:User;
   statusOptions!:string[]
 
   username!:string;
@@ -28,14 +30,23 @@ export class UpdateUserDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<UpdateUserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {user:user, statuses:string[]},
-    private userService:UserServicesService
+    @Inject(MAT_DIALOG_DATA) public data: {user:User, statuses:string[]},
+    private userService:UserServicesService,
+    private snackBar:MatSnackBar
   ) {
     console.log(data);
     this.user = data.user
     this.statusOptions = data.statuses
     this.updateUser.userName = this.user.username
     console.log(this.statusOptions)
+  }
+
+  openSnackBar(message:string) {
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      duration: 2000,
+      data: message,
+      panelClass:['purple-snackbar']
+    });
   }
 
   onToggle(){
@@ -59,7 +70,9 @@ export class UpdateUserDialogComponent implements OnInit {
 
   callUpdate(updateUser:updateUser){
     this.userService.updateUser(updateUser).subscribe(result=>{
+      this.username = updateUser.userName
       console.log(result);
+      this.openSnackBar(`Successfully ${this.enabled.toLowerCase()} ${this.username}`)
     })
   }
 }

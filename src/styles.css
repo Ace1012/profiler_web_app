@@ -24,3 +24,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   body{
     background-color: #fefbe9;
   }
+
+  mat-dialog-container{
+    /* background-color: #fefbf5 !important; */
+    background-color: white;
+  }
+  

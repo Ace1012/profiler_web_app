@@ -8,8 +8,8 @@
         </div>
           <div fxFlex="63%">
             <a class="nav" [routerLink]="['users']" [routerLinkActive]="['active']" (click)="goToUsers()" *ngIf="reveal && currentRouter != '/'" >Users</a>
-            <a class="nav" *ngIf="currentRouter != '/'" [routerLink]="['organizations']" [routerLinkActive]="['active']" (click)="goToOrgs(); activateRoute('organizations')">Organizations</a>
-            <a class="nav" *ngIf="currentRouter != '/'" >Services</a>
+            <a class="nav" *ngIf="currentRouter != '/'" [routerLink]="['organizations']" [routerLinkActive]="['active']" (click)="goToOrgs();">Organizations</a>
+            <a class="nav" *ngIf="currentRouter != '/'" [routerLink]="['services']" [routerLinkActive]="['active']" (click)="goToServices();" >Services</a>
           </div>
         <div fxFlex = "3%">
           <button mat-icon-button *ngIf="currentRouter != '/'" (click)="backToLogin()" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">

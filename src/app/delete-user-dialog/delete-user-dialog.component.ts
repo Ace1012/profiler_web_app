@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { deleteUser } from '../models/deleteUser';
 import { UserServicesService } from '../services/user-services.service';
-import { user } from '../models/user';
+import { User } from '../models/user';
 import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -25,7 +25,7 @@ export class DeleteUserDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(user);
+    console.log(User);
   }
 
   openSnackBar(message:string) {

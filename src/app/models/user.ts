@@ -2,7 +2,7 @@ import * as moment from "moment";
 import { Address } from "./address";
 import { contact } from "./contact";
 
-export class user{
+export class User{
     userid!:number;
     username!: string;
     firstname!:string;

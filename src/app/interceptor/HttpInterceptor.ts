@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
-import { catchError, Observable, throwError } from "rxjs";
+import { catchError, Observable, retry, throwError } from "rxjs";
 import { AuthServiceService } from "../services/auth-service.service";
 import { SnackBarComponent } from "../snack-bar/snack-bar.component";
 
@@ -20,7 +20,7 @@ export class CustomHttpInterceptor implements HttpInterceptor{
         this.snackBar.openFromComponent(SnackBarComponent, {
           duration: 2000,
           data: message,
-          panelClass:['purple-snackbar']
+          panelClass:['red-snackbar']
         });
       }
 
@@ -46,18 +46,25 @@ export class CustomHttpInterceptor implements HttpInterceptor{
 
         return next.handle(reqWithAuth)
         .pipe(
+            retry(1),
             catchError((error: HttpErrorResponse)=>{
                 if(error.status == 401){
                     this.handleAuthError();
                     console.log("The error is:")
-                    // console.log(`${error.error.message}`
-                    let errorMessage = error.error.message ? error.error.message : 'Unauthorized';
+                    let errorMessage = error.error?.message ?? 'Unauthorized';
                     this.openSnackBar(errorMessage)
                     return throwError(() => error);
                 }
 
+                if(error.status == 403){
+                    this.openSnackBar(`${error.error?.message ?? 'Not Allowed' }`)
+                    return throwError(() => error)
+                }
+
                 if(error.status == 500){
-                    this.openSnackBar(`${error.error.message}`)
+                    let errorMessage = error.error?.message ?? 'Server Error'
+                    errorMessage = errorMessage.toString().substring(21).split(" ").splice(-2).join(" ")
+                    this.openSnackBar(errorMessage)
                     return throwError(() => error)
                 }
 

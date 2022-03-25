@@ -4,7 +4,13 @@
     <div fxLayout="column">
         <p>Addresses: </p>
     <ng-container *ngFor="let address of addresses; let i = index" >
-        <p><span>Address {{i + 1}}: {{addresses[i].addressValue}}</span></p>
+        <p><span>
+            <mat-chip-list>
+                <mat-chip class="addresses">
+                    Address {{i + 1}}: {{addresses[i].addressValue}}
+                </mat-chip>
+            </mat-chip-list>
+        </span></p>
     </ng-container>
     <p *ngIf="addresses.length == 0" ><span>No addresses</span></p>
     </div>
@@ -14,8 +20,20 @@
     <div fxLayout="column">
         <p>Contacts: </p>
     <ng-container *ngFor="let contact of contacts; let i = index; let length = count" >
-        <p *ngIf="length != 0" ><span>Contact {{i + 1}}: {{contacts[i].contactValue}}</span></p>
+        <p *ngIf="length != 0" ><span>
+            <mat-chip-list>
+                <mat-chip class="contacts">
+                    Contact {{i + 1}}: {{contacts[i].contactValue}}
+                </mat-chip>
+            </mat-chip-list>
+        </span></p>
     </ng-container>
-    <p *ngIf="contacts.length == 0" ><span>No contacts</span></p>
+    <p *ngIf="contacts.length == 0" ><span>
+        <mat-chip-list>
+            <mat-chip class="no-contacts">
+                No contacts
+            </mat-chip>
+        </mat-chip-list>
+    </span></p>
     </div>
 </div>
