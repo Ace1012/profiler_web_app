@@ -33,6 +33,8 @@ export class AddUserDialogComponent implements OnInit {
 
   now!: Date;
 
+  step = 0;
+
   user:addUser={
     userName:'',
     userFirstName:'',
@@ -50,8 +52,16 @@ export class AddUserDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.now = new Date();
+    let timestamp = this.now.getTime() - this.now.getTimezoneOffset() * 60000;
+    this.now = new Date(timestamp)
+    
+    console.log(`Time is`)
+    console.log(this.now.toISOString().substring(0,19))
+    // console.log(this.formatDate(this.now))
+    
     this.user.userCreated = this.formatDate(this.now);
-    console.log(this.formatDate(this.now))
+    // this.user.userCreated = this.now.toISOString();
+    // console.log(this.formatDate(this.now))
 
     this.userServices.fetchAccountStatusOptions().subscribe(result=>{
       console.log("This is the result")
@@ -88,7 +98,7 @@ export class AddUserDialogComponent implements OnInit {
       'T'
        +
       [
-        this.padTo2Digits(date.getHours()),
+        this.padTo2Digits(date.getHours() - 3),
         this.padTo2Digits(date.getMinutes()),
         this.padTo2Digits(date.getSeconds()),
       ].join(':')
@@ -107,27 +117,50 @@ export class AddUserDialogComponent implements OnInit {
     return roleName.charAt(0).toUpperCase() + roleName.slice(1);
   }
 
-  step = 0;
-
   setStep(index: number) {
-    if(this.step == 0){
-      this.addUserDetails(
-        (<HTMLInputElement>document.getElementById("username")).value,
-        (<HTMLInputElement>document.getElementById("firstname")).value,
-        (<HTMLInputElement>document.getElementById("middlename")).value,
-        (<HTMLInputElement>document.getElementById("lastname")).value,
-        );
-        this.addAddress(
-          (<HTMLInputElement>document.getElementById("address")).value,
-        );
+
+    if(index != 0 && this.step == 0){
+      console.log(`step is 0!`)
+
+        let username = (<HTMLInputElement>document.getElementById("username")).value
+        let firstname = (<HTMLInputElement>document.getElementById("firstname")).value
+        let middlename = (<HTMLInputElement>document.getElementById("middlename")).value
+        let lastname = (<HTMLInputElement>document.getElementById("lastname")).value
+        let address = (<HTMLInputElement>document.getElementById("address")).value
+
+      if(username.length == 0 || firstname.length == 0 || middlename.length == 0 || lastname.length == 0 || address.length == 0){
+
+        this.openSnackBar('User details incomplete')
+
+      }else{
+
+        this.addUserDetails( username, firstname, middlename, lastname);
+        this.addAddress(address);  
+      }
     }
-    if(this.step == 1){
-      this.addUserPassword(
-        (<HTMLInputElement>document.getElementById("password")).value,
-        (<HTMLInputElement>document.getElementById("confirmPassword")).value,
-      );
+
+    if(index != 1 && this.step == 1){
+      console.log(`step is 1!`)
+      
+      let password = (<HTMLInputElement>document.getElementById("password")).value
+      let confirmPassword = (<HTMLInputElement>document.getElementById("confirmPassword")).value
+
+      if(password != null && confirmPassword != null && password == confirmPassword){
+        this.addUserPassword(password, confirmPassword, null)
+      }
+
+      if(password != null && confirmPassword != null){
+        this.openSnackBar('Password details incomplete!')
+      }
+
+      if(password != confirmPassword){
+        this.openSnackBar(`Password details don't match!`)
+        console.log(`Password details don't match!`)
+      }
     }
     this.step = index;
+    console.log(`step is:`)
+    console.log(this.step)
   }
 
   nextStep() {
@@ -138,6 +171,36 @@ export class AddUserDialogComponent implements OnInit {
   prevStep() {
     if(this.step > 0){
       this.step--;
+    }
+  }
+
+  addUserDetails(username:String, firstname:String,
+    middlename:String, lastname:String){
+
+     this.user.userName = username;
+     this.user.userFirstName = firstname;
+     this.user.userMiddleName = middlename;
+     this.user.userLastName = lastname;
+
+     this.nextStep()
+
+     console.log(this.user);
+  }
+
+  addUserPassword(password:String, confirm:String, direction:number | null){
+    if((password === confirm)){
+      this.user.userPassword = password;
+      console.log(this.user);
+
+      if(direction == 0){
+        this.prevStep()
+      }
+      if(direction == 1){
+        this.nextStep()
+      }
+
+    }else{
+      this.openSnackBar("Passwords do not match!")
     }
   }
 
@@ -162,33 +225,9 @@ export class AddUserDialogComponent implements OnInit {
     }
   }
 
-  // addRole(role:String){
-  //   this.roleId = ((this.roles.findIndex(x => x === role)) + 2);
-  //   console.log("This is the role ID " + this.roleId);
-  // }
-
   addAddress(address:string){
     this.address = address;
     console.log("This is the address " + this.address);
-  }
-
-  addUserDetails(username:String, firstname:String,
-     middlename:String, lastname:String){
-
-      this.user.userName = username;
-      this.user.userFirstName = firstname;
-      this.user.userMiddleName = middlename;
-      this.user.userLastName = lastname;
-      console.log(this.user);
-  }
-
-  addUserPassword(password:String, confirm:String){
-    if((password === confirm)){
-      this.user.userPassword = password;
-      console.log(this.user);
-    }else[
-      alert("Passwords do not match!")
-    ]
   }
 
   openSnackBar(message:string) {
@@ -199,33 +238,42 @@ export class AddUserDialogComponent implements OnInit {
   }
 
   callAddUser(){
-    if(this.user.userName == '' || 
-      this.user.userFirstName == '' ||
-      this.user.userMiddleName == '' ||
-      this.user.userLastName == ''){
+
+      let username = (<HTMLInputElement>document.getElementById("username")).value
+      let firstname = (<HTMLInputElement>document.getElementById("firstname")).value
+      let middlename = (<HTMLInputElement>document.getElementById("middlename")).value
+      let lastname = (<HTMLInputElement>document.getElementById("lastname")).value
+      let address = (<HTMLInputElement>document.getElementById("address")).value
+      let password = (<HTMLInputElement>document.getElementById("password")).value
+      let confirmPassword = (<HTMLInputElement>document.getElementById("confirmPassword")).value
+
+      if(
+        this.user.userName == '' || 
+        this.user.userFirstName == '' ||
+        this.user.userMiddleName == '' ||
+        this.user.userLastName == ''){
         this.openSnackBar("User Details incomplete!")
       }
 
-      if(this.user.userPassword == ''){
-        this.openSnackBar("Enter user password!")
-      }
+      // if(this.user.userPassword == ''){
+      //   this.openSnackBar("Enter user password!")
+      // }
 
-      if(this.user.userStatusId == 0){
-        this.openSnackBar("Assign the user an account status!")
-      }
+      // if(this.user.userStatusId == 0){
+      //   this.openSnackBar("Assign the user an account status!")
+      // }
 
-      if(this.roleId == 0){
-        this.openSnackBar("Choose a role!")
-      }
+      // if(this.roleId == 0){
+      //   this.openSnackBar("Choose a role!")
+      // }
 
-      if(this.address == ''){
-        this.openSnackBar("Enter an address")
-      }
+      // if(this.address == ''){
+      //   this.openSnackBar("Enter an address")
+      // }
 
-      if(!(this.user.userName == '') && !(this.user.userFirstName == '') && !(this.user.userMiddleName == '') && !(this.user.userLastName == '')
-        && !(this.user.userPassword == '') && this.user.userStatusId == 1 || 2, this.roleId == 1 || 2 || 3, !(this.address == '')){
-          console.log(this.user.userCreated)
-          console.log(this.user)
+      if(this.user.userName != '' && this.user.userFirstName != '' && this.user.userMiddleName != '' && this.user.userLastName != ''
+        && this.user.userPassword != '' && this.user.userStatusId != null, this.roleId != null, this.address != ''){
+          
           this.userServices.addUser(this.user, this.roleId, this.address).subscribe(result=>{
             console.log(result)
             this.dialogRef.close();

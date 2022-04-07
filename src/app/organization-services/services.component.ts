@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ServiceModel } from '../models/service-display';
+import { ServiceModel } from '../models/serviceModel';
 import { ServiceOrganization } from '../models/service-organization';
 import { ServicesService } from '../services/services.service';
 import { rowsAnimation } from '../rows-animation';
@@ -12,6 +12,7 @@ import { UpdateServiceDialogComponent } from '../update-service-dialog/update-se
 import { MatDialog } from '@angular/material/dialog';
 import { AddServiceDialogComponent } from '../add-service-dialog/add-service-dialog.component';
 import { DeleteService } from '../models/deleteService';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-services',
@@ -28,6 +29,8 @@ export class ServicesComponent implements OnInit {
   roleDB!:string;
   customerId!:number;
 
+  dataSources!: MatTableDataSource<ServiceModel>;
+
   constructor(
     private servicesService:ServicesService,
     private userService:UserServicesService,
@@ -40,6 +43,40 @@ export class ServicesComponent implements OnInit {
     this.getServices()
     this.getDBRole()
     this.getUserId()
+    console.log(`Datasource is`)
+    console.log(this.dataSources)
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSources.filter = filterValue.trim().toLowerCase();
+    console.clear()
+    console.log(`Datasource is`)
+    console.log(this.dataSources)
+  }
+
+  generateReport(){
+    let format:string = "pdf"
+
+    // this.servicesService.generateServicesReport(format).subscribe(result=>{
+
+    //   const fileURL = URL.createObjectURL(result);
+    //   console.log(`File URL is`)
+    //   console.log(fileURL)
+      
+    //   window.open(fileURL,`_blank`)
+    // })
+
+    this.servicesService.generateServicesReport(format).subscribe(result=>{
+      console.log(`Result is`)
+      console.log(result)
+
+      var url = window.URL.createObjectURL(result.body);
+      var anchor = document.createElement("a");
+      anchor.download = "Tinka-Services.pdf";
+      anchor.href = url;
+      anchor.click();
+    });
   }
 
   openUpdateDialog(service:ServiceModel): void{
@@ -93,7 +130,7 @@ export class ServicesComponent implements OnInit {
     let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
     let username = decodedJWT.sub;
 
-    await lastValueFrom(this.userService.getUserId(username)).then((userId)=>{
+    await lastValueFrom(this.userService.getUserId()).then((userId)=>{
       this.customerId = userId;
       console.log("This is the id: ")
       console.log(this.customerId)
@@ -139,11 +176,12 @@ export class ServicesComponent implements OnInit {
           serviceStart:result[i].serviceStart,
           serviceEnd:result[i].serviceEnd,
           organization:organization,
-          serviceStatus:result[i].serviceStatus
+          serviceStatus:result[i].status.statusId
         }
         this.services.push(service)
       }
     })
+    this.dataSources = new MatTableDataSource(this.services);
     console.log(this.services)
   }
 }

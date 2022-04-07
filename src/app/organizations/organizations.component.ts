@@ -8,8 +8,9 @@ import { OrgServicesService } from '../services/org-services.service';
 import { rowsAnimation } from '../rows-animation';
 import { UserServicesService } from '../services/user-services.service';
 import { lastValueFrom } from 'rxjs';
-import { ServiceModel } from '../models/service-display';
+import { ServiceModel } from '../models/serviceModel';
 import { UpdateServiceDialogComponent } from '../update-service-dialog/update-service-dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-organizations',
@@ -20,6 +21,12 @@ import { UpdateServiceDialogComponent } from '../update-service-dialog/update-se
 export class OrganizationsComponent implements OnInit {
 
   roleDB!:string;
+
+  organizations:Organization[] = [];
+  addresses:Address[] = [];
+  services:ServiceModel[] = [];
+
+  dataSources!: MatTableDataSource<Organization>;
 
   constructor(
     private orgServices:OrgServicesService,
@@ -32,6 +39,14 @@ export class OrganizationsComponent implements OnInit {
     this.getDBRole()
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSources.filter = filterValue.trim().toLowerCase();
+    console.clear()
+    console.log(`Datasource is`)
+    console.log(this.dataSources)
+  }
+
   async getDBRole(){
     await lastValueFrom(this.userService.getUserRole()).then((roleBean)=>{
         this.roleDB = roleBean.roleName;
@@ -39,10 +54,6 @@ export class OrganizationsComponent implements OnInit {
         console.log(this.roleDB)
     })
   }
-
-  organizations:Organization[] = [];
-  addresses:Address[] = [];
-  services:ServiceModel[] = [];
 
   openAddOrgDialog(): void {
     const dialogRef = this.dialog.open(AddOrganizationDialogComponent, {
@@ -117,7 +128,7 @@ export class OrganizationsComponent implements OnInit {
         this.organizations.push(organization);
       }
     })
-
+    this.dataSources = new MatTableDataSource(this.organizations);
     console.log(this.organizations);
   }
 

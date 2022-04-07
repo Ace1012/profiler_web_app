@@ -1,0 +1,43 @@
+mat-expansion-panel{
+    width: 70%;
+    height: fit-content;
+}
+
+mat-accordion{
+    margin-bottom: 10px;
+}
+
+.generate-reports{
+    margin-right: 30px;
+}
+
+/* mat-expansion-panel .selected { 
+    border: solid 2px red;
+  } */
+
+  .org-top-buttons{
+	margin-right: 100px;
+}
+
+button{
+    margin: 5px;
+    background-color: rosybrown;
+    color: white;
+}
+
+button:hover{
+    background-color: green;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
+    grid-auto-rows: minmax(150px, auto);
+    width: 70%;
+    margin-left: 250px;
+    /* margin: 100px;
+    margin-top: 100px;
+    margin-bottom: 100px; */
+
+}

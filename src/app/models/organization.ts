@@ -1,6 +1,6 @@
 import { Address } from "./address";
 import { Service } from "./organization-service";
-import { ServiceModel } from "./service-display";
+import { ServiceModel } from "./serviceModel";
 
 export class Organization{
     organizationId!:number;

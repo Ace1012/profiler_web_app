@@ -1,4 +1,5 @@
 <mat-accordion class="example-headers-align">
+  
     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -37,17 +38,13 @@
         <input #address id="address" matInput id="address">
       </mat-form-field>
   
-      <!-- <mat-form-field appearance="fill">
-        <mat-label>Age</mat-label>
-        <input matInput type="number" min="1">
-      </mat-form-field> -->
       <mat-action-row>
         <button mat-button color="primary" 
-        (click)="nextStep(); addUserDetails(username.value, firstname.value, middlename.value, lastname.value); addAddress(address.value)">
+        (click)="addUserDetails(username.value, firstname.value, middlename.value, lastname.value); addAddress(address.value)">
           Next
         </button>
       </mat-action-row>
-    </mat-expansion-panel>
+      </mat-expansion-panel>
 
     <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
         <mat-expansion-panel-header>
@@ -68,8 +65,8 @@
             <input #confirmPassword type="password" matInput id="confirmPassword">
           </mat-form-field>
           <mat-action-row>
-            <button mat-button color="warn" (click)="prevStep(); addUserPassword(password.value, confirmPassword.value)">Previous</button>
-            <button mat-button color="primary" (click)="nextStep(); addUserPassword(password.value, confirmPassword.value)">Next</button>
+            <button mat-button color="warn" (click)="addUserPassword(password.value, confirmPassword.value, 0)">Previous</button>
+            <button mat-button color="primary" (click)="addUserPassword(password.value, confirmPassword.value, 1)">Next</button>
           </mat-action-row>
     </mat-expansion-panel>
   

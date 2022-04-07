@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { lastValueFrom } from 'rxjs';
 import { Organization } from '../models/organization';
-import { ServiceModel } from '../models/service-display';
+import { ServiceModel } from '../models/serviceModel';
 import { Status } from '../models/status';
 import { UpdateService } from '../models/updateService';
 import { OrgServicesService } from '../services/org-services.service';
@@ -51,7 +51,7 @@ export class UpdateServiceDialogComponent implements OnInit {
 
       let statusId = this.oldService.serviceStatus
 
-      this.updateService.serviceStatus = statusId
+      this.updateService.serviceStatus = statusId as number
 
       if(statusId == 1){
         this.enabled = "Enabled"

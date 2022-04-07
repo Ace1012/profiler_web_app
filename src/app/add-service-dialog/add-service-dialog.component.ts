@@ -24,6 +24,7 @@ export class AddServiceDialogComponent implements OnInit {
   orgs:Organization[] = [];
 
   chosenDate!:Date;
+  hrInMilliSecs:number = 60000
 
   addService:AddService = {
     serviceName:'',
@@ -92,16 +93,22 @@ export class AddServiceDialogComponent implements OnInit {
     console.log("\n\n")
   }
 
-  getDateValues(date:Date){
-    // console.log(this.formatDate(date))
+  getDateValues(sentDate:Date){
 
-    this.addService.serviceStart = this.formatDate(date)
+    let date = sentDate
+    let timestamp = date.getTime() - date.getTimezoneOffset() * this.hrInMilliSecs;
+    date = new Date(timestamp)
+
+    // this.addService.serviceStart = this.formatDate(date)
+    this.addService.serviceStart = date.toISOString().substring(0,19)
     console.log(`Start date is:`)
     console.log(this.addService.serviceStart)
     console.log("\n\n")
 
     date.setDate(date.getDate() + 30)
-    this.addService.serviceEnd = this.formatDate(date)
+    
+    // this.addService.serviceEnd = this.formatDate(date)
+    this.addService.serviceEnd = date.toISOString().substring(0,19)
     console.log(`End date is:`)
     console.log(this.addService.serviceEnd)
     console.log("\n\n")
@@ -112,7 +119,25 @@ export class AddServiceDialogComponent implements OnInit {
     return num.toString().padStart(2, '0');
   }
 
-  formatDate(date:Date) {
+  formatDate(sentDate:Date) {
+    let date = sentDate
+    let timestamp = date.getTime() + date.getTimezoneOffset() * 60000;
+    date = new Date(timestamp)
+
+    console.log(`Timestamp is`)
+    console.log(date)
+
+    console.log(`\n\n`)
+
+    console.log(`Original date is`)
+    console.log(sentDate)
+
+    console.log(`\n\n`)
+
+    console.log(`Formatted date is`)
+    console.log(this.formatDate(date))
+
+    console.log(`\n`)
     return (
       [
         date.getFullYear(),
@@ -123,7 +148,7 @@ export class AddServiceDialogComponent implements OnInit {
       'T'
        +
       [
-        this.padTo2Digits(date.getHours()),
+        this.padTo2Digits(date.getHours() - 3),
         this.padTo2Digits(date.getMinutes()),
         this.padTo2Digits(date.getSeconds()),
       ].join(':')

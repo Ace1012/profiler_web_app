@@ -6,12 +6,14 @@
 <p>
     
 </p>
+
 <div fxLayoutAlign="center center" class="search" width="50%">
   <mat-form-field appearance="standard">
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Search results..." #input>
   </mat-form-field>
 </div>
+
 <div fxLayoutAlign="center center">
     <table mat-table [dataSource]="dataSource" class="mat-table">
   

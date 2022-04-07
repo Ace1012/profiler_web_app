@@ -1,21 +1,78 @@
 .nav{
-    margin: 45px;
+    margin: 5px;
     color: rosybrown;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-decoration: none;
+}
+
+.nav2{
+    color: rosybrown
+}
+
+.nav2:hover{
+    background-color: transparent;
+    color: green;
+}
+
+.drawer-toolbar{
+    justify-content: center;
+    background-color: rosybrown;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.avatar{
+    margin-left: 23%;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
 }
 
 .nav:hover{
     color: green;
 }
 
+.sidenav-container{
+    height: 100%;
+    /* align-items: center; */
+    background-color: #fefbe9;
+    /* justify-content: center; */
+}
+
+.sidenav {
+    padding: 20px;
+    background-color: #fefbe9;
+    width: 25%;
+}
+
+.sidenav-logout{
+    background-color: rosybrown;
+    color: white;
+    position: absolute;
+    width: 95%;
+    bottom: 10px;
+}
+
+.sidenav-logout:hover{
+    background-color: green;
+    color: white;
+}
+
+.sidenav-options{
+    justify-content: center;
+}
+
+.mat-list-icon{
+    color: rosybrown;
+}
+
 body{
     background-color: #fefbe9;
 }
 
-.home-icon{
-    margin-right: 15px;
-    margin-top: 0px;
+.divide{
+    margin-left: 8%;
+    margin-right: 8%;
 }
 
 .site-name{
@@ -31,17 +88,13 @@ body{
     text-decoration: none;
 }
 
-/* .no-interaction:hover{
-    opacity: 20%;
-} */
-
 .toolbar-buttons:hover{
     color: green;
 }
 
 .toolbar-buttons{
-    font-size: 5ex;
-    margin-right: 10px;
+    font-size: 4ex;
+    margin-right: 30px;
 }
 
 .toolbar:hover{

@@ -8,7 +8,7 @@ import { DeleteUserDialogComponent } from '../delete-user-dialog/delete-user-dia
 import { MatTableDataSource } from '@angular/material/table';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 import { Address } from '../models/address';
-import { contact } from '../models/contact';
+import { Contact } from '../models/contact';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { UserMoreDetailsComponent } from '../user-more-details/user-more-details.component';
 import * as moment from 'moment';
@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit {
   user!:User;
   users:User[]=[];
   addresses:Address[] = [];
-  contacts:contact[] = [];
+  contacts:Contact[] = [];
 
   statuses: string[] = [];
   roles: String[] = [];
@@ -59,13 +59,16 @@ export class UsersComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.users);
   }
 
-  capitalize(roleName:string) {
-    return roleName.charAt(0).toUpperCase() + roleName.slice(1);
-  }
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    // console.clear()
+    console.log(`Datasource is`)
+    console.log(this.dataSource)
+  }
+
+  capitalize(roleName:string) {
+    return roleName.charAt(0).toUpperCase() + roleName.slice(1);
   }
 
   displayUsers(){
@@ -84,7 +87,7 @@ export class UsersComponent implements OnInit {
 
         for(let k = 0; k < result[i].contacts.length; k++){
 
-          let contact:contact = {
+          let contact:Contact = {
             contactId:result[i].contacts[k].contactId,
             contactValue: result[i].contacts[k].contactValue
           }
@@ -99,8 +102,9 @@ export class UsersComponent implements OnInit {
           firstname: result[i].userFirstName,
           middlename: result[i].userMiddleName,
           lastname: result[i].userLastName,
+          dateCreated: myMoment.toString().substring(0,24),
           // dateCreated: myMoment.toString().substring(4,24),
-          dateCreated: myMoment.toString(),
+          // dateCreated: myMoment.toString(),
           status: result[i].statusBean.statusName,
           addresses: this.addresses,
           contacts: this.contacts,
@@ -111,8 +115,11 @@ export class UsersComponent implements OnInit {
         this.addresses = [];
         this.contacts = [];
 
-        this.dataSource = new MatTableDataSource(this.users);
+        
       }
+      console.log(`users are`)
+        console.log(this.users)
+        this.dataSource = new MatTableDataSource(this.users);
     });
   }
 
@@ -138,6 +145,7 @@ export class UsersComponent implements OnInit {
   }
 
   openAddDialog(){
+    
     const dialogRef = this.dialog.open(AddUserDialogComponent, {
       width: '1000px',
       height:'fit-content',

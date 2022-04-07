@@ -88,7 +88,7 @@ export class UserServicesService {
     return this.http.get(`${baseUrl}user/fetchAccountStatusOptions`);
   }
 
-  getUserId(userName:string):Observable<any>{
+  getUserId():Observable<any>{
     let token = this.authService.getToken() as string;
     let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
     let username = decodedJWT.sub;
@@ -98,4 +98,18 @@ export class UserServicesService {
     return this.http.get(`${baseUrl}user/getUserIdByName`, {params:queryParams})
   }
 
+  fetchCustomerServices():Observable<any>{
+    return this.http.get(`${baseUrl}user/fetchCustomers`)
+  }
+
+  generateCustomersReport(format:string):Observable<any>{
+
+    let queryparams = new HttpParams();
+    queryparams = queryparams.append("format", format);
+
+    // let headers = new HttpHeaders();
+    // headers = headers.set('Accept', 'application/pdf');
+
+    return this.http.get(`${baseUrl}reports/customersReport`, {params:queryparams, responseType: 'blob', observe: 'response'})
+  }
 }

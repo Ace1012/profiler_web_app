@@ -9,13 +9,15 @@ import { LoginComponent } from './login/login.component';
 import { OrganizationsComponent } from './organizations/organizations.component';
 import { ServicesComponent } from './organization-services/services.component';
 import { UsersComponent } from './users/users.component';
+import { CustomerServicesComponent } from './users/customer-services/customer-services.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent, canLoad:[LoginGuard]},
   {path: 'home', component: HomeComponent, canActivate:[AuthGuard], canLoad:[HomeGuard]},
   {path: 'users', component:UsersComponent, canActivate:[UsersGuard] },
   {path: 'organizations', component:OrganizationsComponent, canActivate:[AuthGuard]},
-  {path: 'services', component:ServicesComponent, canActivate:[AuthGuard]}
+  {path: 'services', component:ServicesComponent, canActivate:[AuthGuard]},
+  {path: 'customers', component:CustomerServicesComponent}
 ];
 
 @NgModule({

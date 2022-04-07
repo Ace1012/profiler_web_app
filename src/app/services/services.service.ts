@@ -42,4 +42,15 @@ export class ServicesService {
     return this.http.patch(`${baseUrl}services/deleteService`, service)
   }
 
+  generateServicesReport(format:string):Observable<any>{
+
+    let queryparams = new HttpParams();
+    queryparams = queryparams.append("format", format);
+
+    // let headers = new HttpHeaders();
+    // headers = headers.set('Accept', 'application/pdf');
+
+    return this.http.get(`${baseUrl}reports/servicesReport`, {params:queryparams, responseType: 'blob', observe: 'response'})
+  }
+
 }

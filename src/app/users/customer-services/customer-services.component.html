@@ -1,0 +1,54 @@
+<!-- <div fxLayoutAlign="center center" class="search" width="50%">
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search results..." #input>
+    </mat-form-field>
+  </div> -->
+
+  <div fxLayoutAlign="center center" class="search" width="50%">
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search customer names..." #input>
+    </mat-form-field>
+  </div>
+
+  <div fxLayoutAlign="center center" fxLayout="space-evenly" style="margin-bottom: 10px;" class="generate-reports">
+    <button mat-raised-button (click)="generateReport()" class="add-service-button">Get Customers PDF</button>
+  </div>
+  <!-- <div fxLayoutAlign="center center" fxLayout="space-evenly" style="margin-bottom: 10px;" class="generate-reports">
+    <button *ngIf="roleDB == 'admin'" mat-raised-button (click)="generateReport()" class="add-service-button">Get Customers PDF</button>
+  </div> -->
+
+<mat-accordion class="grid" fxLayoutAlign="center center" *ngFor="let customer of this.dataSources.filteredData">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header fxLayout="row" >
+        <mat-panel-title>
+          <mat-chip-list>
+              <mat-chip>
+                {{customer.userName}}
+              </mat-chip>
+          </mat-chip-list>
+        </mat-panel-title>
+      <mat-panel-description fxLayoutAlign="end">
+            Subscribed to {{customer.services.length}} service(s)
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <ng-container *ngFor="let service of customer.services; let i = index" >
+      <div>
+        <p><span class="service-name">Service Name: {{customer.services[i].serviceName}}</span></p>
+      <!-- <button *ngIf="roleDB == 'admin'" (click)="openUpdateServiceDialog(organizations[i].organizationServices[j])"
+        mat-raised-button fxLayoutAlign="" class="userTopButtons">
+        Edit Service
+      </button> -->
+      <button mat-raised-button *ngIf="roleDB == 'customer'">
+          UNSUBSCRIBE
+      </button>
+      </div>
+    </ng-container>
+
+    <!-- <mat-action-row >
+      <button mat-raised-button fxLayoutAlign="" class="userTopButtons">Edit Customer</button>
+    </mat-action-row> -->
+  </mat-expansion-panel>
+</mat-accordion>

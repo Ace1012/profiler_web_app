@@ -14,13 +14,23 @@ import { SnackBarComponent } from './snack-bar/snack-bar.component';
 })
 export class AppComponent implements OnInit, OnDestroy{
   title = 'tinka_profiler';
-  currentRouter: string = '/';
+  currentRouter:string = '/';
   routeSub;
   username='';
   reveal:boolean = false;
   activatedRoute="";
   time!: number;
-  user!:User;
+  user:User={
+    userid: 0,
+    username: '',
+    firstname: '',
+    middlename: '',
+    lastname: '',
+    dateCreated: '',
+    status: '',
+    addresses: [],
+    contacts: []
+  };
   
   constructor(private userService:UserServicesService , private router:Router, private authService:AuthServiceService, private snackBar:MatSnackBar){
     this.routeSub = router.events.subscribe((val) => {
@@ -51,15 +61,13 @@ export class AppComponent implements OnInit, OnDestroy{
             console.log(`I made it!`)
             this.username = this.authService.getUserName();
           }
-          this.checkIdle();
+          // this.checkIdle();
         }
 
         if(this.currentRouter == '/' && val.url == '/home' && authService.isLoggedIn()){
           this.getUserProfile()
         }
-
         this.currentRouter = val.url;
-        
       }
     })
   }
@@ -72,7 +80,10 @@ export class AppComponent implements OnInit, OnDestroy{
   async getUserProfile(){
     console.log(`Helloooooooooo`)
     await lastValueFrom(this.userService.fetchUser(this.username)).then((fetchedUser)=>{
+      console.log(`Fetched user is: `)
       console.log(fetchedUser)
+      this.user = fetchedUser as User
+      
     })
   }
 
@@ -91,6 +102,10 @@ export class AppComponent implements OnInit, OnDestroy{
 
   goToServices(){
     this.router.navigate(['services']);
+  }
+
+  goToCustomers(){
+    this.router.navigate(['customers']);
   }
   //Navigation functions END
 
@@ -136,19 +151,19 @@ export class AppComponent implements OnInit, OnDestroy{
     });
   }
 
-  @HostListener('document:mousemove')
-  @HostListener('document:keypress')
-  @HostListener('document:click')
-  @HostListener('document:wheel')
-  checkIdle() {
-    if(this.authService.isLoggedIn()){
-      clearTimeout(this.time);
-    this.time = window.setTimeout(() => {
-      this.openSnackBar("Logged out due to inactivity!")
-      this.idleBackToLogin()
-    }, 600000);
-    }
-  }
+  // @HostListener('document:mousemove')
+  // @HostListener('document:keypress')
+  // @HostListener('document:click')
+  // @HostListener('document:wheel')
+  // checkIdle() {
+  //   if(this.authService.isLoggedIn()){
+  //     clearTimeout(this.time);
+  //   this.time = window.setTimeout(() => {
+  //     this.openSnackBar("Logged out due to inactivity!")
+  //     this.idleBackToLogin()
+  //   }, 600000);
+  //   }
+  // }
 
   ngOnDestroy(){
     this.routeSub.unsubscribe();

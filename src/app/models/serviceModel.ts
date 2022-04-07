@@ -8,5 +8,5 @@ export class ServiceModel{
     serviceEnd!:Timestamp<Date>;
     organization!:ServiceOrganization | null;
     serviceOrganizationId?:number;
-    serviceStatus!:number;
+    serviceStatus?:number;
 }

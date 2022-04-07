@@ -28,6 +28,7 @@ export class CustomHttpInterceptor implements HttpInterceptor{
         this.token = this.authService.getToken();
 
         let headers;
+        let retryNumber = 1;
 
         if(this.token!=null){
             headers = {
@@ -40,13 +41,29 @@ export class CustomHttpInterceptor implements HttpInterceptor{
             }
         }
 
+        if(req.method.toString() == 'GET'){
+            retryNumber = 1
+        }
+
+        if(req.method.toString() == 'POST'){
+            retryNumber = 0
+        }
+
+        if(req.method.toString() == 'PATCH'){
+            retryNumber = 1
+        }
+
+        if(req.method.toString() == 'DELETE'){
+            retryNumber = 0
+        }
+
         const reqWithAuth = req.clone({
             setHeaders:headers
         });
 
         return next.handle(reqWithAuth)
         .pipe(
-            retry(1),
+            retry(retryNumber),
             catchError((error: HttpErrorResponse)=>{
                 if(error.status == 401){
                     this.handleAuthError();

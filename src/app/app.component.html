@@ -1,23 +1,81 @@
-    <mat-toolbar class="toolbar" fxLayoutAlign="center center" fxLayout="space-evenly">
-        <div fxFlex fxLayoutAlign="row " fxLayout="space-between">
-          <button mat-icon-button *ngIf="currentRouter != '/'" class="home-icon" aria-label="Example icon-button with menu icon" (click)="goToHome()">
-            <mat-icon class="toolbar-buttons" [routerLink]="['home']" [routerLinkActive]="['active']" >home</mat-icon>
-          </button>
-          <h1 class="site-name" class="no-interaction"><span>Profiler System</span></h1>
-          <h1 *ngIf="currentRouter != '/'" class="username"><span>{{username}}</span></h1>
-        </div>
-          <div fxFlex="63%">
-            <a class="nav" [routerLink]="['users']" [routerLinkActive]="['active']" (click)="goToUsers()" *ngIf="reveal && currentRouter != '/'" >Users</a>
-            <a class="nav" *ngIf="currentRouter != '/'" [routerLink]="['organizations']" [routerLinkActive]="['active']" (click)="goToOrgs();">Organizations</a>
-            <a class="nav" *ngIf="currentRouter != '/'" [routerLink]="['services']" [routerLinkActive]="['active']" (click)="goToServices();" >Services</a>
-          </div>
-        <div fxFlex = "3%">
-          <button mat-icon-button *ngIf="currentRouter != '/'" (click)="backToLogin()" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-            <mat-icon class="toolbar-buttons">logout</mat-icon>
-          </button>
-        </div>
-    </mat-toolbar>
-    <p></p>
+<mat-drawer-container class="sidenav-container" hasBackdrop="true" autosize>
+
+  <mat-drawer #drawer class="sidenav" mode="side" fxLayout="column" fxLayoutAlign="center center">
+    <div fxLayout="column">
+      <mat-toolbar fxLayoutAlign="center center" class="drawer-toolbar">
+        {{username}}
+      </mat-toolbar>
+      <img src="/assets/images/me.jpeg" alt="Avatar" class="avatar">
+
+      <!-- <div class="user-details" >
+        <p>Username: {{username}}</p>
+        <input #firstname *ngIf="false" [(ngModel)]="user.firstname" type="text">
+        <p let element = f >First Name: {{firs}}</p>
+        <p>Middle Name: {{user.middlename}}</p>
+        <p>Last Name: {{user.lastname}}</p>
+
+      </div> -->
+
+        <mat-list class="sidenav-options">
+          <mat-list-item>
+            <mat-icon *ngIf="reveal && currentRouter != '/'" mat-list-icon>people</mat-icon>
+            <a class="nav" [routerLink]="['users']" [routerLinkActive]="['active']" (click)="goToUsers(); drawer.toggle()" *ngIf="reveal && currentRouter != '/'" >Users</a>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon mat-list-icon>folder</mat-icon>
+            <a class="nav" *ngIf="currentRouter != '/'" [routerLink]="['organizations']" [routerLinkActive]="['active']" (click)="goToOrgs(); drawer.toggle()">Organizations</a>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon mat-list-icon>verified</mat-icon>
+            <a class="nav" *ngIf="currentRouter != '/'" [routerLink]="['services']" [routerLinkActive]="['active']" (click)="goToServices(); drawer.toggle()" >Services</a>
+          </mat-list-item>
+        </mat-list>
+
+      <div fxLayoutAlign="center">
+        <button mat-raised-button class="sidenav-logout" (click)="backToLogin(); drawer.toggle()">LOGOUT</button>
+      </div>
+    </div>
+  </mat-drawer>
+
+  <mat-toolbar class="toolbar" fxLayoutAlign="center center" fxLayout="space-evenly">
+      
+    <div fxLayoutAlign="row" style="position: absolute;left: 0px;">
+      <mat-icon matTooltip="Check your profile" matTooltipPosition="after" *ngIf="currentRouter != '/'" class="toolbar-buttons" (click)="drawer.toggle()">menu</mat-icon>
+      <mat-icon *ngIf="currentRouter != '/'" class="toolbar-buttons" [routerLink]="['home']" [routerLinkActive]="['active']" (click)="goToHome()" >home</mat-icon>
+    </div>
+
+    <!-- <h1 class="site-name"><span>Profiler System</span></h1> -->
+
+    
+  
+    <div style="position: absolute; left: 100px;" fxLayoutAlign="center center">
+      <mat-nav-list fxLayout="row" fxLayout="end none">
+        <a mat-list-item class="nav2" [routerLink]="['users']" [routerLinkActive]="['active']" (click)="goToUsers()" *ngIf="reveal && currentRouter != '/'" >Users</a>
+        <a mat-list-item class="nav2" *ngIf="currentRouter != '/'" [routerLink]="['organizations']" [routerLinkActive]="['active']" (click)="goToOrgs();">Organizations</a>
+        <a mat-list-item class="nav2" *ngIf="currentRouter != '/'" [routerLink]="['services']" [routerLinkActive]="['active']" (click)="goToServices();" >Services</a>
+        <a mat-list-item class="nav2" *ngIf="currentRouter != '/'" [routerLink]="['customers']" [routerLinkActive]="['active']" (click)="goToCustomers();" >Customers</a>
+    </mat-nav-list>
+
+    <div fxFlex></div>
+
+      <!-- <a class="nav" [routerLink]="['users']" [routerLinkActive]="['active']" (click)="goToUsers()" *ngIf="reveal && currentRouter != '/'" >Users</a>
+      <a class="nav" *ngIf="currentRouter != '/'" [routerLink]="['organizations']" [routerLinkActive]="['active']" (click)="goToOrgs();">Organizations</a>
+      <a class="nav" *ngIf="currentRouter != '/'" [routerLink]="['services']" [routerLinkActive]="['active']" (click)="goToServices();" >Services</a> -->
+    </div>
+  
+    <div style="position: absolute; right: 0;">
+      <button mat-icon-button matTooltip="Click to Logout" *ngIf="currentRouter != '/'" (click)="backToLogin()" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon class="toolbar-buttons">logout</mat-icon>
+      </button>
+    </div>
+
+  </mat-toolbar>
+
+  <!-- <p></p> -->
+
+  <router-outlet></router-outlet>
+
+</mat-drawer-container>
+
   
 
-<router-outlet></router-outlet>

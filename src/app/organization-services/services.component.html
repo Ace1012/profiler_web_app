@@ -1,12 +1,23 @@
+<div fxLayoutAlign="center center" class="search" width="50%">
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search service names..." #input>
+  </mat-form-field>
+</div>
+
 <div fxLayoutAlign="center center" fxLayout="space-evenly" class="service-top-buttons">
   <button *ngIf="roleDB == 'admin'" mat-raised-button (click)="openAddDialog()" class="add-service-button">Add Service</button>
 </div>
+<div fxLayoutAlign="center center" fxLayout="space-evenly" style="margin-bottom: 10px;" class="generate-reports">
+  <button mat-raised-button (click)="generateReport()" class="add-service-button">Get Services PDF</button>
+</div>
+
 <div class="grid">
-    <mat-card [@rowsAnimation]="" class="service-card" *ngFor="let service of services; let i = index">
+    <mat-card [@rowsAnimation]="" class="service-card" *ngFor="let service of this.dataSources.filteredData; let i = index">
         <mat-card-header>
           <div mat-card-avatar class="service-header-image"></div>
-          <mat-card-title>{{services[i].serviceName}}</mat-card-title>
-          <mat-card-subtitle class="subtitle">{{services[i].organization?.organizationName}}</mat-card-subtitle>
+          <mat-card-title>{{service.serviceName}}</mat-card-title>
+          <mat-card-subtitle class="subtitle">{{service.organization?.organizationName}}</mat-card-subtitle>
           <div fxFlex></div>
           <mat-chip-list>
             <mat-chip *ngIf="service.serviceStatus == 1" class="enabled" selected>
@@ -27,10 +38,49 @@
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button  *ngIf="roleDB == 'admin'" mat-raised-button class="edit" (click)="[openUpdateDialog(service)]">EDIT</button>
+          <button style="position: absolute; bottom:5%; left: 5%;" *ngIf="roleDB == 'admin'" mat-raised-button class="edit" (click)="[openUpdateDialog(service)]">EDIT</button>
           <div fxFlex></div>
-          <button  *ngIf="roleDB == 'admin'" mat-raised-button class="delete" (click)="callDelete(service.serviceId)" >DELETE</button>
-          <button  *ngIf="roleDB != 'user' && roleDB != 'admin' && service.serviceStatus == 1" mat-raised-button class="subscribe" (click)="[addCustomerService(services[i].serviceId)]">SUBSCRIBE</button>
+          <button style="position: absolute; bottom:5%; right: 5%;" *ngIf="roleDB == 'admin'" mat-raised-button class="delete" (click)="callDelete(service.serviceId)" >DELETE</button>
+          <button style="position: absolute; bottom:5%; right: 5%;" *ngIf="roleDB != 'user' && roleDB != 'admin' && service.serviceStatus == 1" mat-raised-button class="subscribe" (click)="[addCustomerService(services[i].serviceId)]">SUBSCRIBE</button>
         </mat-card-actions>
       </mat-card>
 </div>
+
+
+<!-- <mat-grid-list cols="2" rows="10">
+
+  <mat-grid-tile rowHeight="fit" *ngFor="service of services; let i = index" >
+    <mat-card [@rowsAnimation]="" class="service-card" *ngFor="let service of services; let i = index">
+      <mat-card-header>
+        <div mat-card-avatar class="service-header-image"></div>
+        <mat-card-title>{{services[i].serviceName}}</mat-card-title>
+        <mat-card-subtitle class="subtitle">{{services[i].organization?.organizationName}}</mat-card-subtitle>
+        <div fxFlex></div>
+        <mat-chip-list>
+          <mat-chip *ngIf="service.serviceStatus == 1" class="enabled" selected>
+          Available
+        </mat-chip>
+        <mat-chip *ngIf="service.serviceStatus == 2"  class="disabled" selected>
+          Unavailable
+        </mat-chip>
+        </mat-chip-list>
+      </mat-card-header>
+      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <p>
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button style="position: absolute; bottom:5%; left: 5%;" *ngIf="roleDB == 'admin'" mat-raised-button class="edit" (click)="[openUpdateDialog(service)]">EDIT</button>
+        <div fxFlex></div>
+        <button style="position: absolute; bottom:5%; right: 5%;" *ngIf="roleDB == 'admin'" mat-raised-button class="delete" (click)="callDelete(service.serviceId)" >DELETE</button>
+        <button style="position: absolute; bottom:5%; right: 5%;" *ngIf="roleDB != 'user' && roleDB != 'admin' && service.serviceStatus == 1" mat-raised-button class="subscribe" (click)="[addCustomerService(services[i].serviceId)]">SUBSCRIBE</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+
+</mat-grid-list> -->

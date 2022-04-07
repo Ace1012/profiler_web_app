@@ -5,6 +5,7 @@ table {
 	/* background-color:lightgrey; */
 	background-color: rgb(238, 229, 229);
 	font-weight:400;
+	margin-bottom: 100px;
 }
 
 .mat-table .mat-header-cell{

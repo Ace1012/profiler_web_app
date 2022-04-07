@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { Address } from '../models/address';
-import { contact } from '../models/contact';
+import { Contact } from '../models/contact';
 import { User } from '../models/user';
 
 @Component({
@@ -13,7 +13,7 @@ export class UserMoreDetailsComponent implements OnInit {
 
   user!:User;
   addresses:Address[] = [];
-  contacts:contact[] = [];
+  contacts:Contact[] = [];
 
   constructor(@Inject (MAT_BOTTOM_SHEET_DATA) private userDetails:User) {
     this.user = userDetails;

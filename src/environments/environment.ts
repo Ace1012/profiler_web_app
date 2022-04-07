@@ -6,6 +6,8 @@ export const environment = {
   production: false
 };
 
+export const assetsPath = `/assets/images/`
+
 export const baseUrl = `http://localhost:8080/profiler/`;
 /*
  * For easier debugging in development mode, you can import the following file

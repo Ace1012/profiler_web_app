@@ -24,9 +24,13 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
@@ -42,6 +46,7 @@ import { AddOrganizationDialogComponent } from './add-organization-dialog/add-or
 import { ServicesComponent } from './organization-services/services.component';
 import { UpdateServiceDialogComponent } from './update-service-dialog/update-service-dialog.component';
 import { AddServiceDialogComponent } from './add-service-dialog/add-service-dialog.component';
+import { CustomerServicesComponent } from './users/customer-services/customer-services.component';
 
 
 
@@ -60,7 +65,8 @@ import { AddServiceDialogComponent } from './add-service-dialog/add-service-dial
     AddOrganizationDialogComponent,
     ServicesComponent,
     UpdateServiceDialogComponent,
-    AddServiceDialogComponent
+    AddServiceDialogComponent,
+    CustomerServicesComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,7 +95,12 @@ import { AddServiceDialogComponent } from './add-service-dialog/add-service-dial
     MatButtonToggleModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatListModule,
+    MatSidenavModule,
+    MatGridListModule,
+    MatTreeModule,
+    MatTooltipModule
   ],
   providers: [
     {

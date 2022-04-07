@@ -1,10 +1,17 @@
+<div fxLayoutAlign="center center" class="search" width="50%">
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search organization names..." #input>
+  </mat-form-field>
+</div>
+
 <div fxLayoutAlign="center center" fxLayout="space-evenly" class="org-top-buttons">
   <button *ngIf="roleDB == 'admin'" mat-raised-button (click)="openAddOrgDialog()" class="userTopButtons">Add Organization</button>
 </div>
 
 <p></p>
 
-<mat-accordion  class="grid" fxLayoutAlign="center center" *ngFor="let org of organizations; let i = index">
+<mat-accordion class="grid" fxLayoutAlign="center center" *ngFor="let org of this.dataSources.filteredData; let i = index">
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header fxLayout="row" >
         <mat-panel-title>

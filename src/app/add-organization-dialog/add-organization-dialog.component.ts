@@ -30,19 +30,22 @@ export class AddOrganizationDialogComponent implements OnInit {
 
   createOrganization(orgName:string, orgMobile:string, orgPostal:string, orgAddress:string){
 
-    orgMobile = `+254` + orgMobile.slice(1);
-    console.log(orgMobile)
+    if(orgName.length == 0 || orgMobile.length == 0 || orgAddress.length == 0 || orgAddress.length == 0){
+      return this.openSnackBar(`Complete Organization Profile!`)
+    }else{
+      orgMobile = `+254` + orgMobile.slice(1);
 
-    let organization:AddOrganization = {
-      organizationName: orgName,
-      organizationMobile: orgMobile,
-      organizationPostal: orgPostal
+      let organization:AddOrganization = {
+        organizationName: orgName,
+        organizationMobile: orgMobile,
+        organizationPostal: orgPostal
+      }
+      this.orgService.addOrg(organization, orgAddress).subscribe(result=>{
+        console.log(result);
+      })
+      this.openSnackBar("Organization added successfully!")
+      this.dialogRef.close();
     }
-    this.orgService.addOrg(organization, orgAddress).subscribe(result=>{
-      console.log(result);
-    })
-    this.openSnackBar("Organization added successfully!")
-    this.dialogRef.close();
   }
 
   onNoClick(): void {

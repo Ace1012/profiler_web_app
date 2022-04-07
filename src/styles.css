@@ -3,30 +3,81 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: whitesmoke;}
 .example-spacer {
-    flex: 1 1 auto;
-  }
-  .blue-snackbar {
-    background: #2196F3;
-  }
+  flex: 1 1 auto;
+}
+.blue-snackbar {
+  background: #2196F3;
+}
 
-  .red-snackbar {
-    background: #ca2e19;
-  }
+.red-snackbar {
+  background: #ca2e19;
+}
 
-  .purple-snackbar {
-    background: #7616cf;
-  }
+.purple-snackbar {
+  background: #7616cf;
+}
 
-  .magenta-snackbar {
-    background: magenta;
-  }
+.magenta-snackbar {
+  background: magenta;
+}
+
+body{
+  background-color: #fefbe9;
+}
+
+mat-dialog-container{
+  /* background-color: #fefbf5 !important; */
+  background-color: white;
+}
+
+.mat-tooltip{
+  background-color: green;
+}
+
+.mat-panel-title{
+  color: white;
+}
+
+app-organizations .mat-expansion-panel {
+  background-color: rgb(214, 184, 184);
+  color: white;
+}
+
+app-organizations .mat-expansion-panel:hover {
+  background-color: rgb(182, 121, 121)
+}
+
+/* app-organizations .mat-expansion-panel .mat-expansion-panel-header:hover {
+  background-color: white;
+  color: white;
+}
+
+app-organizations .mat-expansion-panel .mat-action-row:hover {
+  background-color: white
+} */
+
+app-organizations .mat-expansion-panel .exp-content {
+  background-color: red;
+  margin: 0%;
+  padding: 0%;
+}
+
+
+.mat-panel-description{
+  color: white;
+}
+
+.mat-expansion-panel-header{
+  color: white;
+}
+
+
   
-  body{
-    background-color: #fefbe9;
-  }
-
-  mat-dialog-container{
-    /* background-color: #fefbf5 !important; */
-    background-color: white;
-  }
+  
+/* 
+  material-drawer material-list-item:hover, 
+  material-list-item:active,
+  material-list-item:visited {
+    background-color: transparent; 
+  } */
   

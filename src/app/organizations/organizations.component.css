@@ -3,13 +3,21 @@ mat-expansion-panel{
     height: fit-content;
 }
 
+mat-expansion-panel-header:hover {
+    background-color: red
+}
+
 mat-accordion{
     margin-bottom: 10px;
 }
 
-mat-expansion-panel .selected { 
-    border: solid 2px red;
-  }
+/* .search{
+    width: 100px;
+} */
+
+.mat-desc{
+    color: white !important;
+}
 
 .grid {
     display: grid;
